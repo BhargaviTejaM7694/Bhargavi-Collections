@@ -24,31 +24,65 @@ export default function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) 
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 bg-black/60 z-50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         onClick={onClose}
       />
       <div
-        className={`fixed top-0 left-0 h-full w-72 bg-white z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed top-0 left-0 h-full w-72 mobile-menu-ornate z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
-            <span className="font-heading text-xl text-brand-green font-bold">Bhargavi Collections</span>
-            <button onClick={onClose} aria-label="Close menu" className="p-1">
+            <div>
+              <span className="font-heading text-xl header-brand-text font-bold block">Bhargavi</span>
+              <span className="font-heading text-sm text-gold-light/80 tracking-[0.2em] uppercase">Collections</span>
+            </div>
+            <button onClick={onClose} aria-label="Close menu" className="p-1 text-gold-light hover:text-gold transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
-          <nav className="flex flex-col gap-4">
+
+          {/* Decorative divider */}
+          <div className="flex items-center gap-2 mb-6">
+            <span className="block flex-1 h-[1px] bg-gold/30" />
+            <span className="block w-1.5 h-1.5 rounded-full bg-gold/50" />
+            <span className="block flex-1 h-[1px] bg-gold/30" />
+          </div>
+
+          <nav className="flex flex-col gap-1">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} onClick={onClose} className="text-lg text-gray-700 hover:text-burgundy py-2 border-b border-gray-100 transition-colors">
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={onClose}
+                className="text-base text-cream/80 hover:text-gold-light py-3 px-3 rounded-md hover:bg-white/5 tracking-wide uppercase transition-all duration-200"
+              >
                 {link.label}
               </Link>
             ))}
-            <Link href="/order" onClick={onClose} className="btn-primary text-center mt-4">
-              Place Order
-            </Link>
+            <div className="mt-6">
+              <Link
+                href="/order"
+                onClick={onClose}
+                className="hero-btn-primary block text-center rounded-md py-3 font-medium"
+              >
+                Place Order
+              </Link>
+            </div>
           </nav>
+
+          {/* Bottom info */}
+          <div className="absolute bottom-8 left-6 right-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="block flex-1 h-[1px] bg-gold/20" />
+              <span className="block w-1 h-1 rounded-full bg-gold/40" />
+              <span className="block flex-1 h-[1px] bg-gold/20" />
+            </div>
+            <a href="tel:+918978777800" className="text-sm text-gold-light/60 hover:text-gold-light block text-center transition-colors">
+              +91 8978777800
+            </a>
+          </div>
         </div>
       </div>
     </>
