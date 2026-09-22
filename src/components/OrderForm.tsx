@@ -2,7 +2,9 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { products } from "@/data/products";
+import { useCart } from "@/context/CartContext";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { sendOrderEmail } from "@/lib/emailjs";
 
@@ -18,6 +20,7 @@ const INDIAN_STATES = [
 export default function OrderForm() {
   const searchParams = useSearchParams();
   const preselectedProduct = searchParams.get("product") || "";
+  const { selectedItems, removeItem, toggleItem, clearCart } = useCart();
 
   const [form, setForm] = useState({
     name: "",
@@ -28,7 +31,7 @@ export default function OrderForm() {
     city: "",
     state: "",
     pincode: "",
-    selectedProduct: preselectedProduct,
+    additionalProduct: "",
   });
 
   const [paymentFile, setPaymentFile] = useState<File | null>(null);
@@ -38,13 +41,21 @@ export default function OrderForm() {
 
   useEffect(() => {
     if (preselectedProduct) {
-      setForm((prev) => ({ ...prev, selectedProduct: preselectedProduct }));
+      const product = products.find((p) => p.id === preselectedProduct);
+      if (product && !selectedItems.find((p) => p.id === preselectedProduct)) {
+        toggleItem(product);
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preselectedProduct]);
 
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPhone = (phone: string) => /^[6-9]\d{9}$/.test(phone);
   const isValidPincode = (pincode: string) => /^\d{6}$/.test(pincode);
+
+  const hasItems = selectedItems.length > 0;
+
+  const totalPrice = selectedItems.reduce((sum, item) => sum + item.price, 0);
 
   const isFormValid =
     form.name.trim() !== "" &&
@@ -54,11 +65,21 @@ export default function OrderForm() {
     form.city.trim() !== "" &&
     form.state !== "" &&
     isValidPincode(form.pincode) &&
-    form.selectedProduct !== "" &&
+    hasItems &&
     paymentFile !== null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleAddProduct = () => {
+    if (form.additionalProduct) {
+      const product = products.find((p) => p.id === form.additionalProduct);
+      if (product && !selectedItems.find((p) => p.id === product.id)) {
+        toggleItem(product);
+      }
+      setForm({ ...form, additionalProduct: "" });
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -70,8 +91,6 @@ export default function OrderForm() {
 
     try {
       const screenshotUrl = await uploadToCloudinary(paymentFile);
-      const selectedProduct = products.find((p) => p.id === form.selectedProduct);
-      const productLink = `${window.location.origin}/products/${form.selectedProduct}`;
 
       await sendOrderEmail({
         customerName: form.name,
@@ -82,12 +101,13 @@ export default function OrderForm() {
         city: form.city,
         state: form.state,
         pincode: form.pincode,
-        productName: selectedProduct?.name || form.selectedProduct,
-        productPrice: selectedProduct ? `₹${selectedProduct.price.toLocaleString("en-IN")}` : "N/A",
-        productLink,
+        productName: selectedItems.map((p) => p.name).join(", "),
+        productPrice: `₹${totalPrice.toLocaleString("en-IN")} (${selectedItems.length} item${selectedItems.length > 1 ? "s" : ""})`,
+        productLink: selectedItems.map((p) => `${window.location.origin}/products/${p.id}`).join(", "),
         paymentScreenshotUrl: screenshotUrl,
       });
 
+      clearCart();
       setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
@@ -118,6 +138,100 @@ export default function OrderForm() {
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">{error}</div>
       )}
+
+      {/* Selected Items Section */}
+      <div>
+        <h3 className="font-heading text-xl text-brand-green mb-4">Selected Items</h3>
+
+        {hasItems ? (
+          <div className="space-y-3">
+            {selectedItems.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center gap-3 bg-cream/50 border border-gold/20 rounded-lg p-3"
+              >
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-14 h-14 rounded-md object-cover"
+                />
+                <div className="flex-1 min-w-0">
+                  <Link
+                    href={`/products/${item.id}`}
+                    className="font-medium text-gray-800 hover:text-burgundy transition-colors text-sm truncate block"
+                  >
+                    {item.name}
+                  </Link>
+                  <p className="text-gold font-bold text-sm">
+                    ₹{item.price.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeItem(item.id)}
+                  className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                  aria-label={`Remove ${item.name}`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            ))}
+
+            {/* Total */}
+            <div className="flex justify-between items-center pt-2 border-t border-gold/20">
+              <span className="font-medium text-gray-700">
+                Total ({selectedItems.length} item{selectedItems.length > 1 ? "s" : ""})
+              </span>
+              <span className="text-gold font-bold text-lg">
+                ₹{totalPrice.toLocaleString("en-IN")}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+            <svg className="w-10 h-10 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <p className="text-gray-400 text-sm">No items selected yet</p>
+            <Link href="/collections/necklaces" className="text-burgundy text-sm hover:underline mt-1 inline-block">
+              Browse collections
+            </Link>
+          </div>
+        )}
+
+        {/* Add more items dropdown */}
+        <div className="mt-4 flex gap-2">
+          <select
+            name="additionalProduct"
+            value={form.additionalProduct}
+            onChange={handleChange}
+            className={`${inputClass} flex-1`}
+          >
+            <option value="">Add more items...</option>
+            {products
+              .filter((p) => p.inStock && !selectedItems.find((s) => s.id === p.id))
+              .map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name} — ₹{product.price.toLocaleString("en-IN")}
+                </option>
+              ))}
+          </select>
+          <button
+            type="button"
+            onClick={handleAddProduct}
+            disabled={!form.additionalProduct}
+            className={`px-4 py-3 rounded-md font-medium text-sm transition-colors ${
+              form.additionalProduct
+                ? "bg-burgundy text-white hover:bg-burgundy-dark"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
+          >
+            Add
+          </button>
+        </div>
+      </div>
 
       <div>
         <h3 className="font-heading text-xl text-brand-green mb-4">Personal Details</h3>
@@ -177,21 +291,6 @@ export default function OrderForm() {
       </div>
 
       <div>
-        <h3 className="font-heading text-xl text-brand-green mb-4">Order Details</h3>
-        <div>
-          <label htmlFor="selectedProduct" className={labelClass}>Select Item *</label>
-          <select id="selectedProduct" name="selectedProduct" required value={form.selectedProduct} onChange={handleChange} className={inputClass}>
-            <option value="">Choose a product</option>
-            {products.filter((p) => p.inStock).map((product) => (
-              <option key={product.id} value={product.id}>
-                {product.name} — ₹{product.price.toLocaleString("en-IN")}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div>
         <h3 className="font-heading text-xl text-brand-green mb-4">Payment</h3>
         <div>
           <label htmlFor="paymentScreenshot" className={labelClass}>Payment Screenshot *</label>
@@ -226,7 +325,7 @@ export default function OrderForm() {
             Sending Order...
           </span>
         ) : (
-          "Send Order"
+          `Send Order${hasItems ? ` — ₹${totalPrice.toLocaleString("en-IN")}` : ""}`
         )}
       </button>
     </form>

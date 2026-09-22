@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
+import { useCart } from "@/context/CartContext";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,6 +15,7 @@ const navLinks = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -101,7 +103,7 @@ export default function Header() {
             </Link>
 
             {/* Right nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-6">
               {navLinks.slice(2).map((link) => (
                 <Link
                   key={link.href}
@@ -111,18 +113,32 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/admin"
+                className="flex items-center gap-1.5 text-gold-light/70 hover:text-gold-light text-sm font-medium tracking-wide uppercase transition-colors duration-200"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Admin
+              </Link>
             </nav>
 
-            {/* Order bag icon */}
-            <div className="flex items-center gap-4">
+            {/* Cart bag icon with count */}
+            <div className="flex items-center gap-3">
               <Link
                 href="/order"
-                className="text-gold-light hover:text-gold transition-colors"
+                className="relative text-gold-light hover:text-gold transition-colors"
                 aria-label="Place Order"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
+                {itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-gold text-burgundy-dark text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>

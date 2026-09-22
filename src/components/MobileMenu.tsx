@@ -61,13 +61,23 @@ export default function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) 
                 {link.label}
               </Link>
             ))}
-            <div className="mt-6">
+            <div className="mt-6 space-y-3">
               <Link
                 href="/order"
                 onClick={onClose}
                 className="hero-btn-primary block text-center rounded-md py-3 font-medium"
               >
                 Place Order
+              </Link>
+              <Link
+                href="/admin"
+                onClick={onClose}
+                className="flex items-center justify-center gap-2 text-gold-light/60 hover:text-gold-light text-sm py-2 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Admin Login
               </Link>
             </div>
           </nav>
