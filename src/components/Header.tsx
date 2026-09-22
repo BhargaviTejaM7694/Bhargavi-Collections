@@ -63,69 +63,53 @@ export default function Header() {
           <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-light to-transparent" />
 
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative z-10">
-            {/* Mobile hamburger */}
-            <button
-              className="lg:hidden p-2 text-gold-light hover:text-gold transition-colors"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-
-            {/* Left nav */}
-            <nav className="hidden lg:flex items-center gap-8">
-              {navLinks.slice(0, 2).map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Center logo */}
-            <Link href="/" className="flex flex-col items-center group">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-gold/50 flex items-center justify-center mb-1 group-hover:border-gold transition-colors">
-                <svg className="w-5 h-5 md:w-6 md:h-6 text-gold" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-1-13.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM8.5 9.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm5 0c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM12 17c-2.21 0-4-1.79-4-4h8c0 2.21-1.79 4-4 4z" />
-                </svg>
-              </div>
-              <span className="font-heading text-2xl md:text-3xl header-brand-text font-bold leading-tight">
-                Bhargavi
-              </span>
-              <span className="font-heading text-sm md:text-base text-gold-light tracking-[0.3em] uppercase leading-tight">
-                Collections
-              </span>
-            </Link>
-
-            {/* Right nav */}
-            <nav className="hidden lg:flex items-center gap-6">
-              {navLinks.slice(2).map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/admin"
-                className="flex items-center gap-1.5 text-gold-light/70 hover:text-gold-light text-sm font-medium tracking-wide uppercase transition-colors duration-200"
+            {/* Left: Hamburger (mobile) + Logo + Nav links */}
+            <div className="flex items-center gap-6">
+              {/* Mobile hamburger */}
+              <button
+                className="lg:hidden p-2 text-gold-light hover:text-gold transition-colors"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                Admin
-              </Link>
-            </nav>
+              </button>
 
-            {/* Cart bag icon with count */}
-            <div className="flex items-center gap-3">
+              {/* Logo */}
+              <Link href="/" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-gold/50 flex items-center justify-center group-hover:border-gold transition-colors flex-shrink-0">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-gold" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-1-13.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM8.5 9.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm5 0c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM12 17c-2.21 0-4-1.79-4-4h8c0 2.21-1.79 4-4 4z" />
+                  </svg>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">
+                    Bhargavi
+                  </span>
+                  <span className="font-heading text-[10px] md:text-xs text-gold-light tracking-[0.25em] uppercase leading-tight">
+                    Collections
+                  </span>
+                </div>
+              </Link>
+
+              {/* Nav links - all on the left */}
+              <nav className="hidden lg:flex items-center gap-6 ml-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Right: Cart bag + Admin Login */}
+            <div className="flex items-center gap-4">
+              {/* Cart bag icon with count */}
               <Link
                 href="/order"
                 className="relative text-gold-light hover:text-gold transition-colors"
@@ -139,6 +123,17 @@ export default function Header() {
                     {itemCount}
                   </span>
                 )}
+              </Link>
+
+              {/* Admin Login */}
+              <Link
+                href="/admin"
+                className="hidden lg:flex items-center gap-1.5 text-gold-light/70 hover:text-gold-light text-sm font-medium tracking-wide uppercase transition-colors duration-200 border border-gold/30 hover:border-gold/60 rounded-md px-3 py-1.5"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Admin
               </Link>
             </div>
           </div>
