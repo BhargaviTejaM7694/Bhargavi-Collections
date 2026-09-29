@@ -56,36 +56,32 @@ export default function Header() {
         </div>
 
         {/* Main header */}
-        <div className="header-ornate relative">
+        <div className="header-ornate relative border-b border-gray-200">
           {/* Ornamental background pattern */}
-          <div className="absolute inset-0 opacity-[0.08]">
+          <div className="absolute inset-0 opacity-[0.04]">
             <svg className="w-full h-full" viewBox="0 0 1200 80" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <pattern id="mandala-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-                  <circle cx="40" cy="40" r="35" fill="none" stroke="#D4A843" strokeWidth="0.5" />
-                  <circle cx="40" cy="40" r="25" fill="none" stroke="#D4A843" strokeWidth="0.5" />
-                  <circle cx="40" cy="40" r="15" fill="none" stroke="#D4A843" strokeWidth="0.5" />
-                  <circle cx="40" cy="40" r="5" fill="#D4A843" opacity="0.3" />
-                  <path d="M40 5 L45 35 L40 40 L35 35 Z" fill="#D4A843" opacity="0.2" />
-                  <path d="M75 40 L45 45 L40 40 L45 35 Z" fill="#D4A843" opacity="0.2" />
-                  <path d="M40 75 L35 45 L40 40 L45 45 Z" fill="#D4A843" opacity="0.2" />
-                  <path d="M5 40 L35 35 L40 40 L35 45 Z" fill="#D4A843" opacity="0.2" />
+                  <circle cx="40" cy="40" r="35" fill="none" stroke="#4d1515" strokeWidth="0.5" />
+                  <circle cx="40" cy="40" r="25" fill="none" stroke="#4d1515" strokeWidth="0.5" />
+                  <circle cx="40" cy="40" r="15" fill="none" stroke="#4d1515" strokeWidth="0.5" />
+                  <circle cx="40" cy="40" r="5" fill="#4d1515" opacity="0.3" />
+                  <path d="M40 5 L45 35 L40 40 L35 35 Z" fill="#4d1515" opacity="0.2" />
+                  <path d="M75 40 L45 45 L40 40 L45 35 Z" fill="#4d1515" opacity="0.2" />
+                  <path d="M40 75 L35 45 L40 40 L45 45 Z" fill="#4d1515" opacity="0.2" />
+                  <path d="M5 40 L35 35 L40 40 L35 45 Z" fill="#4d1515" opacity="0.2" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#mandala-pattern)" />
             </svg>
           </div>
 
-          {/* Border accents */}
-          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-light to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-light to-transparent" />
-
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative z-10">
             {/* Left: Hamburger (mobile) + Logo + Nav links */}
             <div className="flex items-center gap-6">
               {/* Mobile hamburger */}
               <button
-                className="lg:hidden p-2 text-gold-light hover:text-gold transition-colors"
+                className="lg:hidden p-2 text-burgundy hover:text-burgundy-dark transition-colors"
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="Open menu"
               >
@@ -96,8 +92,8 @@ export default function Header() {
 
               {/* Logo */}
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-gold/50 flex items-center justify-center group-hover:border-gold transition-colors flex-shrink-0">
-                  <svg className="w-5 h-5 md:w-6 md:h-6 text-gold" viewBox="0 0 24 24" fill="currentColor">
+                <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-burgundy/30 flex items-center justify-center group-hover:border-burgundy transition-colors flex-shrink-0">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-burgundy" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-1-13.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM8.5 9.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm5 0c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM12 17c-2.21 0-4-1.79-4-4h8c0 2.21-1.79 4-4 4z" />
                   </svg>
                 </div>
@@ -105,7 +101,7 @@ export default function Header() {
                   <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">
                     Bhargavi Teja
                   </span>
-                  <span className="font-heading text-[10px] md:text-xs text-gold-light tracking-[0.25em] uppercase leading-tight">
+                  <span className="font-heading text-[10px] md:text-xs text-burgundy/60 tracking-[0.25em] uppercase leading-tight">
                     Collections
                   </span>
                 </div>
@@ -115,7 +111,7 @@ export default function Header() {
               <nav className="hidden lg:flex items-center gap-6 ml-4">
                 <Link
                   href="/"
-                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                  className="text-gray-700 hover:text-burgundy font-medium tracking-wide uppercase text-sm transition-colors duration-200"
                 >
                   Home
                 </Link>
@@ -124,7 +120,7 @@ export default function Header() {
                 <div ref={shopRef} className="relative">
                   <button
                     onClick={() => setShopOpen(!shopOpen)}
-                    className="flex items-center gap-1 text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                    className="flex items-center gap-1 text-gray-700 hover:text-burgundy font-medium tracking-wide uppercase text-sm transition-colors duration-200"
                   >
                     Shop
                     <svg
@@ -155,13 +151,13 @@ export default function Header() {
 
                 <Link
                   href="/about"
-                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                  className="text-gray-700 hover:text-burgundy font-medium tracking-wide uppercase text-sm transition-colors duration-200"
                 >
                   About
                 </Link>
                 <Link
                   href="/contact"
-                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                  className="text-gray-700 hover:text-burgundy font-medium tracking-wide uppercase text-sm transition-colors duration-200"
                 >
                   Contact
                 </Link>
@@ -172,7 +168,7 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <Link
                 href="/order"
-                className="relative text-gold-light hover:text-gold transition-colors"
+                className="relative text-burgundy hover:text-burgundy-dark transition-colors"
                 aria-label="Place Order"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,7 +183,7 @@ export default function Header() {
 
               <Link
                 href="/admin"
-                className="hidden lg:flex items-center gap-1.5 text-gold-light/70 hover:text-gold-light text-sm font-medium tracking-wide uppercase transition-colors duration-200 border border-gold/30 hover:border-gold/60 rounded-md px-3 py-1.5"
+                className="hidden lg:flex items-center gap-1.5 text-burgundy/70 hover:text-burgundy text-sm font-medium tracking-wide uppercase transition-colors duration-200 border border-burgundy/30 hover:border-burgundy/60 rounded-md px-3 py-1.5"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

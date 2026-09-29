@@ -36,28 +36,29 @@
     @apply font-heading text-3xl md:text-4xl text-burgundy text-center mb-8;
   }
 
-  /* Ornate header background */
+  /* Ornate header background - white */
   .header-ornate {
-    background: linear-gradient(135deg, #0f2a1c 0%, #1a3a2a 30%, #142e20 70%, #0f2a1c 100%);
+    background: #ffffff;
   }
 
-  /* Header brand text with gold gradient */
+  /* Header brand text - dark maroon */
   .header-brand-text {
-    background: linear-gradient(180deg, #D4A843 0%, #B8860B 50%, #D4A843 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #4d1515;
+    -webkit-text-fill-color: #4d1515;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
   }
 
-  /* Hero section background - subtle sage green gradient */
+  /* Hero section background - dark maroon */
   .hero-ornate {
-    background: linear-gradient(135deg, #8faa96 0%, #a8c4ae 25%, #c5d9c8 50%, #a8c4ae 75%, #8faa96 100%);
+    background: linear-gradient(135deg, #3a0a0a 0%, #4d1515 25%, #5a1a1a 50%, #4d1515 75%, #3a0a0a 100%);
   }
 
-  /* Hero brand text - dark green */
+  /* Hero brand text - gold */
   .hero-brand-text {
-    color: #1a3a2a;
-    -webkit-text-fill-color: #1a3a2a;
+    color: #D4A843;
+    -webkit-text-fill-color: #D4A843;
     background: none;
     -webkit-background-clip: unset;
     background-clip: unset;
@@ -67,31 +68,31 @@
   /* Hero primary button */
   .hero-btn-primary {
     @apply px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300;
-    background: #1a3a2a;
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(26, 58, 42, 0.3);
+    background: #D4A843;
+    color: #3a0a0a;
+    box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
   }
   .hero-btn-primary:hover {
-    background: #0f2a1c;
-    box-shadow: 0 6px 20px rgba(26, 58, 42, 0.4);
+    background: #c49a38;
+    box-shadow: 0 6px 20px rgba(212, 168, 67, 0.4);
     transform: translateY(-1px);
   }
 
   /* Hero outline button */
   .hero-btn-outline {
     @apply px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300;
-    border: 1.5px solid rgba(26, 58, 42, 0.4);
-    color: #1a3a2a;
+    border: 1.5px solid rgba(212, 168, 67, 0.5);
+    color: #D4A843;
   }
   .hero-btn-outline:hover {
-    border-color: #1a3a2a;
-    background: rgba(26, 58, 42, 0.08);
-    color: #0f2a1c;
+    border-color: #D4A843;
+    background: rgba(212, 168, 67, 0.1);
+    color: #e8c060;
   }
 
   /* Image glow effect */
   .hero-image-glow {
-    box-shadow: 0 0 40px rgba(26, 58, 42, 0.15), 0 0 80px rgba(26, 58, 42, 0.1);
+    box-shadow: 0 0 40px rgba(212, 168, 67, 0.15), 0 0 80px rgba(212, 168, 67, 0.1);
   }
 
   /* Mobile menu ornate */

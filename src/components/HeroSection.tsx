@@ -3,13 +3,91 @@ import Link from "next/link";
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden hero-ornate">
+      {/* Gold ornamental SVG background pattern */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Top-right mandala */}
+        <svg
+          className="absolute -top-20 -right-20 w-[500px] h-[500px] opacity-[0.08]"
+          viewBox="0 0 400 400"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="200" cy="200" r="180" stroke="#D4A843" strokeWidth="1" />
+          <circle cx="200" cy="200" r="150" stroke="#D4A843" strokeWidth="0.8" />
+          <circle cx="200" cy="200" r="120" stroke="#D4A843" strokeWidth="0.6" />
+          <circle cx="200" cy="200" r="90" stroke="#D4A843" strokeWidth="0.5" />
+          {/* Petals */}
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle) => (
+            <g key={angle} transform={`rotate(${angle} 200 200)`}>
+              <path
+                d="M200 20 Q220 100 200 180 Q180 100 200 20"
+                stroke="#D4A843"
+                strokeWidth="0.8"
+                fill="none"
+              />
+              <path
+                d="M200 50 Q210 120 200 160 Q190 120 200 50"
+                stroke="#D4A843"
+                strokeWidth="0.5"
+                fill="none"
+              />
+            </g>
+          ))}
+          {/* Inner star */}
+          {[0, 45, 90, 135].map((angle) => (
+            <line
+              key={`star-${angle}`}
+              x1="200"
+              y1="80"
+              x2="200"
+              y2="320"
+              stroke="#D4A843"
+              strokeWidth="0.4"
+              transform={`rotate(${angle} 200 200)`}
+            />
+          ))}
+        </svg>
+
+        {/* Bottom-left mandala */}
+        <svg
+          className="absolute -bottom-32 -left-32 w-[600px] h-[600px] opacity-[0.06]"
+          viewBox="0 0 400 400"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="200" cy="200" r="190" stroke="#D4A843" strokeWidth="1.2" />
+          <circle cx="200" cy="200" r="160" stroke="#D4A843" strokeWidth="1" />
+          <circle cx="200" cy="200" r="130" stroke="#D4A843" strokeWidth="0.8" />
+          <circle cx="200" cy="200" r="100" stroke="#D4A843" strokeWidth="0.6" />
+          <circle cx="200" cy="200" r="70" stroke="#D4A843" strokeWidth="0.4" />
+          {[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5].map((angle) => (
+            <g key={angle} transform={`rotate(${angle} 200 200)`}>
+              <path
+                d="M200 10 Q215 100 200 190 Q185 100 200 10"
+                stroke="#D4A843"
+                strokeWidth="0.6"
+                fill="none"
+              />
+            </g>
+          ))}
+        </svg>
+
+        {/* Scattered gold dots / small circles */}
+        <svg className="absolute top-0 left-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="gold-dots" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+            <circle cx="30" cy="30" r="1" fill="#D4A843" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#gold-dots)" />
+        </svg>
+      </div>
+
       {/* Subtle decorative accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-burgundy/20 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 lg:py-28 flex flex-col md:flex-row items-center gap-10 md:gap-16 relative z-10">
         {/* Left: Text content */}
         <div className="flex-1 text-center md:text-left">
-          <p className="text-burgundy/60 font-medium tracking-[0.3em] uppercase text-sm mb-3">
+          <p className="text-gold/70 font-medium tracking-[0.3em] uppercase text-sm mb-3">
             Welcome to
           </p>
           <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl hero-brand-text font-bold leading-tight mb-2">
@@ -18,11 +96,11 @@ export default function HeroSection() {
           <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl hero-brand-text font-bold leading-tight mb-4">
             Collections
           </h1>
-          <p className="text-burgundy/50 tracking-[0.2em] uppercase text-sm md:text-base mb-6 font-medium">
-            Discover the Latest Trends in 1 Gram Imitation Jewellery.
+          <p className="text-gold/50 tracking-[0.2em] uppercase text-sm md:text-base mb-6 font-medium">
+            Discover the Latest Trends in Imitation Jewellery.
           </p>
 
-          <p className="text-burgundy-dark/60 text-base md:text-lg mb-8 max-w-md mx-auto md:mx-0 leading-relaxed">
+          <p className="text-white/60 text-base md:text-lg mb-8 max-w-md mx-auto md:mx-0 leading-relaxed">
             Exquisite designs crafted with love.
             Traditional elegance at affordable prices.
           </p>
@@ -51,7 +129,7 @@ export default function HeroSection() {
               className="absolute -left-4 md:-left-6 top-6 md:top-10 w-52 h-[280px] md:w-64 md:h-[370px] rounded-2xl overflow-hidden shadow-xl"
               style={{
                 transform: "rotate(-8deg)",
-                border: "4px solid rgba(26,58,42,0.25)",
+                border: "3px solid rgba(212, 168, 67, 0.3)",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -67,7 +145,7 @@ export default function HeroSection() {
               className="absolute left-1/2 top-0 w-52 h-[300px] md:w-64 md:h-[400px] rounded-2xl overflow-hidden shadow-2xl z-10"
               style={{
                 transform: "translateX(-50%) rotate(2deg)",
-                border: "4px solid rgba(26,58,42,0.35)",
+                border: "3px solid rgba(212, 168, 67, 0.4)",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -83,7 +161,7 @@ export default function HeroSection() {
               className="absolute -right-4 md:-right-6 top-8 md:top-12 w-52 h-[270px] md:w-64 md:h-[360px] rounded-2xl overflow-hidden shadow-xl"
               style={{
                 transform: "rotate(8deg)",
-                border: "4px solid rgba(26,58,42,0.25)",
+                border: "3px solid rgba(212, 168, 67, 0.3)",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -98,7 +176,7 @@ export default function HeroSection() {
             <div
               className="absolute inset-0 -z-10 rounded-full opacity-20 blur-3xl"
               style={{
-                background: "radial-gradient(circle, rgba(26,58,42,0.3) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(212, 168, 67, 0.3) 0%, transparent 70%)",
               }}
             />
           </div>
