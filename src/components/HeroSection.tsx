@@ -19,25 +19,33 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 lg:py-28 flex flex-col md:flex-row items-center gap-10 md:gap-16 relative z-10">
         {/* Left: Text content */}
         <div className="flex-1 text-center">
-          {/* Logo with golden mandala flower image background */}
+          {/* Logo with golden mandala flower background */}
           <div className="mb-2 flex justify-center">
-            <div className="relative flex items-center justify-center w-64 h-48 md:w-80 md:h-60 lg:w-[420px] lg:h-[300px]">
-              {/* Mandala flower image - full flower visible */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/mandala-bg.png"
-                alt=""
-                className="absolute inset-0 w-full h-full object-contain opacity-70"
-                aria-hidden="true"
-              />
+            <div className="relative flex items-center justify-center w-80 h-80 md:w-[27rem] md:h-[27rem] lg:w-[30rem] lg:h-[30rem]">
+              {/* Mandala flower image - blend with hero bg */}
+              <div className="absolute inset-0" style={{
+                WebkitMaskImage: "radial-gradient(circle, black 30%, transparent 70%)",
+                maskImage: "radial-gradient(circle, black 30%, transparent 70%)",
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/mandala-flower.png"
+                  alt=""
+                  className="w-full h-full object-contain"
+                  aria-hidden="true"
+                />
+              </div>
 
-              {/* Logo image - centered within mandala */}
+              {/* Logo embossed in the center */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo.webp"
                 alt="Bhargavi Teja Collections Logo"
-                className="w-28 h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full object-cover shadow-xl shadow-black/40 relative z-10"
-                style={{ border: "3px solid rgba(212, 168, 67, 0.5)" }}
+                className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full object-cover relative z-10"
+                style={{
+                  border: "3px solid rgba(212, 168, 67, 0.6)",
+                  boxShadow: "0 0 30px rgba(212, 168, 67, 0.3), 0 0 60px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(212, 168, 67, 0.1)",
+                }}
               />
             </div>
           </div>
