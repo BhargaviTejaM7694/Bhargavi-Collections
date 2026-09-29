@@ -90,14 +90,16 @@ export default function HeroSection() {
           <p className="text-gold/70 font-medium tracking-[0.3em] uppercase text-sm mb-3">
             Welcome to
           </p>
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl hero-brand-text font-bold leading-tight mb-2">
-            Bhargavi Teja
-          </h1>
-          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl hero-brand-text font-bold leading-tight mb-4">
-            Collections
-          </h1>
-          <p className="text-gold/50 tracking-[0.2em] uppercase text-sm md:text-base mb-6 font-medium">
-            Discover the Latest Trends in Imitation Jewellery.
+          <div className="mb-4 overflow-visible">
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl hero-brand-text font-bold leading-[1.2] pb-1">
+              Bhargavi Teja
+            </h1>
+            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl hero-brand-text font-bold leading-[1.2] pb-2">
+              Collections
+            </h1>
+          </div>
+          <p className="text-white font-medium tracking-[0.35em] uppercase text-base md:text-lg mb-6">
+            Imitation Jewellery
           </p>
 
           <p className="text-white/60 text-base md:text-lg mb-8 max-w-md mx-auto md:mx-0 leading-relaxed">

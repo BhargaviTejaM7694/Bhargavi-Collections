@@ -55,14 +55,14 @@
     background: linear-gradient(135deg, #3a0a0a 0%, #4d1515 25%, #5a1a1a 50%, #4d1515 75%, #3a0a0a 100%);
   }
 
-  /* Hero brand text - gold */
+  /* Hero brand text - gold gradient like reference */
   .hero-brand-text {
-    color: #D4A843;
-    -webkit-text-fill-color: #D4A843;
-    background: none;
-    -webkit-background-clip: unset;
-    background-clip: unset;
+    background: linear-gradient(180deg, #f5d778 0%, #D4A843 40%, #B8860B 70%, #8B6914 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     filter: none;
+    font-style: italic;
   }
 
   /* Hero primary button */
