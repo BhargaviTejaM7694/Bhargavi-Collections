@@ -6,9 +6,17 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="font-heading text-2xl text-gold mb-3">Bhargavi Teja Collections</h3>
+            <div className="flex items-center gap-3 mb-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.webp"
+                alt="Bhargavi Teja Collections Logo"
+                className="w-14 h-14 rounded-full object-cover"
+              />
+              <h3 className="font-heading text-2xl text-gold">Bhargavi Teja Collections</h3>
+            </div>
             <p className="text-gold-light/70 text-sm leading-relaxed">
-              Your trusted destination for beautiful 1 gram gold imitation jewellery. Quality craftsmanship at affordable prices.
+              Your trusted destination for beautiful imitation jewellery. Quality craftsmanship at affordable prices.
             </p>
           </div>
           <div>

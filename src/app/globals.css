@@ -63,6 +63,9 @@
     background-clip: text;
     filter: none;
     font-style: italic;
+    padding-bottom: 0.15em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   /* Hero primary button */

@@ -92,11 +92,12 @@ export default function Header() {
 
               {/* Logo */}
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-burgundy/30 flex items-center justify-center group-hover:border-burgundy transition-colors flex-shrink-0">
-                  <svg className="w-5 h-5 md:w-6 md:h-6 text-burgundy" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-1-13.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM8.5 9.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm5 0c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM12 17c-2.21 0-4-1.79-4-4h8c0 2.21-1.79 4-4 4z" />
-                  </svg>
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo.webp"
+                  alt="Bhargavi Teja Collections Logo"
+                  className="w-11 h-11 md:w-12 md:h-12 rounded-full object-cover flex-shrink-0"
+                />
                 <div className="flex flex-col">
                   <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">
                     Bhargavi Teja
