@@ -31,6 +31,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, emailSent: false });
     }
 
+    if (!customerEmail || !customerEmail.trim()) {
+      return NextResponse.json({ success: true, emailSent: false, reason: "No customer email" });
+    }
+
     if (!process.env.COMPOSIO_API_KEY || !process.env.COMPOSIO_CONNECTED_ACCOUNT_ID || !process.env.COMPOSIO_USER_ID) {
       return NextResponse.json({ success: true, emailSent: false, reason: "Email not configured" });
     }
