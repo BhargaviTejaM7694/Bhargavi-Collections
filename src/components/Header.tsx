@@ -28,7 +28,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    setCategories(getAdminCategories());
+    getAdminCategories().then(setCategories);
   }, []);
 
   useEffect(() => {

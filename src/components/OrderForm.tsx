@@ -40,14 +40,15 @@ export default function OrderForm() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const allProducts = getAdminProducts();
-    setProducts(allProducts);
-    if (preselectedProduct) {
-      const product = allProducts.find((p) => p.id === preselectedProduct);
-      if (product && !items.find((item) => item.product.id === preselectedProduct)) {
-        addItem(product, 1);
+    getAdminProducts().then((allProducts) => {
+      setProducts(allProducts);
+      if (preselectedProduct) {
+        const product = allProducts.find((p) => p.id === preselectedProduct);
+        if (product && !items.find((item) => item.product.id === preselectedProduct)) {
+          addItem(product, 1);
+        }
       }
-    }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preselectedProduct]);
 
@@ -119,7 +120,7 @@ export default function OrderForm() {
         throw new Error(result.error || "Failed to submit order");
       }
 
-      saveOrder({
+      await saveOrder({
         id: generateOrderId(),
         customerName: form.name,
         customerEmail: form.email,
@@ -136,7 +137,7 @@ export default function OrderForm() {
         createdAt: new Date().toISOString(),
       });
 
-      reduceProductQuantity(items.map((item) => ({ id: item.product.id, quantity: item.quantity })));
+      await reduceProductQuantity(items.map((item) => ({ id: item.product.id, quantity: item.quantity })));
 
       clearCart();
       setSubmitted(true);

@@ -101,11 +101,12 @@ function OrdersManagement() {
   const [productMap, setProductMap] = useState<Map<string, Product>>(new Map());
 
   useEffect(() => {
-    setOrdersList(getOrders());
-    const products = getAdminProducts();
-    const map = new Map<string, Product>();
-    products.forEach((p) => map.set(p.id, p));
-    setProductMap(map);
+    getOrders().then(setOrdersList);
+    getAdminProducts().then((products) => {
+      const map = new Map<string, Product>();
+      products.forEach((p) => map.set(p.id, p));
+      setProductMap(map);
+    });
   }, []);
 
   const timelineFiltered = filterByTimeline(ordersList, timeline);
@@ -119,8 +120,8 @@ function OrdersManagement() {
     setUpdatingStatus(order.id);
     setStatusMessage(null);
 
-    updateOrderStatus(order.id, newStatus);
-    setOrdersList(getOrders());
+    await updateOrderStatus(order.id, newStatus);
+    setOrdersList(await getOrders());
 
     try {
       const res = await fetch("/api/orders/status", {

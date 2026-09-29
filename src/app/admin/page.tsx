@@ -12,8 +12,8 @@ function Dashboard() {
   const [ordersList, setOrdersList] = useState<Order[]>([]);
 
   useEffect(() => {
-    setProductsList(getAdminProducts());
-    setOrdersList(getOrders());
+    getAdminProducts().then(setProductsList);
+    getOrders().then(setOrdersList);
   }, []);
 
   const totalProducts = productsList.length;

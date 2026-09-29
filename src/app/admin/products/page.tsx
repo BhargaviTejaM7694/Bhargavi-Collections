@@ -52,8 +52,8 @@ function ProductsManagement() {
   const catFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setProductsList(getAdminProducts());
-    setCategoriesList(getAdminCategories());
+    getAdminProducts().then(setProductsList);
+    getAdminCategories().then(setCategoriesList);
   }, []);
 
   const filtered = productsList.filter((p) => {
@@ -99,25 +99,25 @@ function ProductsManagement() {
     setCatImagePreview(dataUrl);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.name || !formData.category || !formData.image || formData.price <= 0) return;
 
     const inStock = formData.quantity > 0;
 
     if (editingProduct) {
       const updated: Product = { ...editingProduct, ...formData, inStock };
-      updateProduct(updated);
+      await updateProduct(updated);
     } else {
       const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, inStock };
-      addProduct(newProduct);
+      await addProduct(newProduct);
     }
-    setProductsList(getAdminProducts());
+    setProductsList(await getAdminProducts());
     setShowModal(false);
   };
 
-  const handleDelete = (id: string) => {
-    deleteProduct(id);
-    setProductsList(getAdminProducts());
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+    setProductsList(await getAdminProducts());
     setDeleteConfirm(null);
   };
 
@@ -133,8 +133,8 @@ function ProductsManagement() {
       image: image || "",
       description: catDescription.trim(),
     };
-    addCategory(newCat);
-    setCategoriesList(getAdminCategories());
+    await addCategory(newCat);
+    setCategoriesList(await getAdminCategories());
     setCatName("");
     setCatDescription("");
     setCatImageFile(null);
@@ -142,9 +142,9 @@ function ProductsManagement() {
     setShowCategoryModal(false);
   };
 
-  const handleDeleteCategory = (catId: string) => {
-    deleteCategory(catId);
-    setCategoriesList(getAdminCategories());
+  const handleDeleteCategory = async (catId: string) => {
+    await deleteCategory(catId);
+    setCategoriesList(await getAdminCategories());
     setDeleteCatConfirm(null);
   };
 

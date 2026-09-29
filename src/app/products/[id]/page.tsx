@@ -18,14 +18,14 @@ export default function ProductPage() {
   const { addItem } = useCart();
 
   useEffect(() => {
-    const products = getAdminProducts();
-    const categories = getAdminCategories();
-    const found = products.find((p) => p.id === productId) || null;
-    setProduct(found);
-    if (found) {
-      setCategory(categories.find((c) => c.id === found.category) || null);
-    }
-    setLoading(false);
+    Promise.all([getAdminProducts(), getAdminCategories()]).then(([products, categories]) => {
+      const found = products.find((p) => p.id === productId) || null;
+      setProduct(found);
+      if (found) {
+        setCategory(categories.find((c) => c.id === found.category) || null);
+      }
+      setLoading(false);
+    });
   }, [productId]);
 
   const maxQuantity = product?.quantity ?? 10;

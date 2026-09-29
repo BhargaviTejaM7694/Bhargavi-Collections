@@ -9,7 +9,7 @@ export default function ShopByCollections() {
   const [cats, setCats] = useState<Category[]>([]);
 
   useEffect(() => {
-    setCats(getAdminCategories());
+    getAdminCategories().then(setCats);
   }, []);
 
   if (cats.length === 0) return null;

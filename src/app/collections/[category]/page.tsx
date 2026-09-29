@@ -15,9 +15,11 @@ export default function CategoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setCategories(getAdminCategories());
-    setProducts(getAdminProducts());
-    setLoading(false);
+    Promise.all([getAdminCategories(), getAdminProducts()]).then(([cats, prods]) => {
+      setCategories(cats);
+      setProducts(prods);
+      setLoading(false);
+    });
   }, []);
 
   if (loading) {

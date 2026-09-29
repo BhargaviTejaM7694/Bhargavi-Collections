@@ -11,10 +11,12 @@ export default function FeaturedProducts() {
   const [firstCategoryId, setFirstCategoryId] = useState("necklaces");
 
   useEffect(() => {
-    const all = getAdminProducts();
-    setFeatured(all.filter((p) => p.inStock).slice(0, 8));
-    const cats = getAdminCategories();
-    if (cats.length > 0) setFirstCategoryId(cats[0].id);
+    getAdminProducts().then((all) => {
+      setFeatured(all.filter((p) => p.inStock).slice(0, 8));
+    });
+    getAdminCategories().then((cats) => {
+      if (cats.length > 0) setFirstCategoryId(cats[0].id);
+    });
   }, []);
 
   if (featured.length === 0) return null;
