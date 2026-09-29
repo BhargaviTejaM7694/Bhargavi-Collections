@@ -16,9 +16,8 @@ export default function HeroSection() {
       {/* Subtle decorative accent line */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 lg:py-28 flex flex-col md:flex-row items-center gap-10 md:gap-16 relative z-10">
-        {/* Left: Text content */}
-        <div className="flex-1 text-center">
+      <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 lg:py-28 flex flex-col items-center relative z-10">
+        <div className="text-center w-full">
           {/* Logo with golden mandala flower background */}
           <div className="mb-2 flex justify-center">
             <div className="relative flex items-center justify-center w-80 h-80 md:w-[27rem] md:h-[27rem] lg:w-[30rem] lg:h-[30rem]">
@@ -83,67 +82,6 @@ export default function HeroSection() {
             >
               Contact Us
             </Link>
-          </div>
-        </div>
-
-        {/* Right: Overlapping tilted image cards */}
-        <div className="flex-1 flex justify-center">
-          <div className="relative w-[340px] h-[340px] md:w-[520px] md:h-[440px]">
-            {/* Card 1 - Back left, tilted left */}
-            <div
-              className="absolute -left-4 md:-left-6 top-6 md:top-10 w-52 h-[280px] md:w-64 md:h-[370px] rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                transform: "rotate(-8deg)",
-                border: "3px solid rgba(212, 168, 67, 0.3)",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&h=700&fit=crop&crop=center&auto=format&q=80"
-                alt="Gold necklace jewellery"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Card 2 - Center front, straight */}
-            <div
-              className="absolute left-1/2 top-0 w-52 h-[300px] md:w-64 md:h-[400px] rounded-2xl overflow-hidden shadow-2xl z-10"
-              style={{
-                transform: "translateX(-50%) rotate(2deg)",
-                border: "3px solid rgba(212, 168, 67, 0.4)",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1758995115518-26f90aa61b97?w=500&h=700&fit=crop&crop=center&auto=format&q=80"
-                alt="Elegant Indian bridal jewellery"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Card 3 - Back right, tilted right */}
-            <div
-              className="absolute -right-4 md:-right-6 top-8 md:top-12 w-52 h-[270px] md:w-64 md:h-[360px] rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                transform: "rotate(8deg)",
-                border: "3px solid rgba(212, 168, 67, 0.3)",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&h=700&fit=crop&crop=center&auto=format&q=80"
-                alt="Traditional gold bangles"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Decorative gold glow behind cards */}
-            <div
-              className="absolute inset-0 -z-10 rounded-full opacity-20 blur-3xl"
-              style={{
-                background: "radial-gradient(circle, rgba(212, 168, 67, 0.3) 0%, transparent 70%)",
-              }}
-            />
           </div>
         </div>
       </div>
