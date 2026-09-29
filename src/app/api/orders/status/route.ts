@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/composio-email";
 
 const statusMessages: Record<string, { subject: string; heading: string; message: string; color: string }> = {
+  ordered: {
+    subject: "Your order has been placed successfully",
+    heading: "Order Confirmed",
+    message: "Thank you for your order! We have received it and will begin processing shortly. You will receive updates as your order progresses.",
+    color: "#EAB308",
+  },
   processing: {
     subject: "Your order is being processed",
     heading: "Order Processing",
@@ -35,7 +41,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, emailSent: false, reason: "No customer email" });
     }
 
-    if (!process.env.COMPOSIO_API_KEY || !process.env.COMPOSIO_CONNECTED_ACCOUNT_ID || !process.env.COMPOSIO_USER_ID) {
+    if (!process.env.COMPOSIO_API_KEY || !process.env.COMPOSIO_USER_ID) {
       return NextResponse.json({ success: true, emailSent: false, reason: "Email not configured" });
     }
 

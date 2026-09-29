@@ -14,10 +14,10 @@ export async function sendEmail({
   htmlBody: string;
 }) {
   const result = await composio.tools.execute("GMAIL_SEND_EMAIL", {
-    connected_account_id: process.env.COMPOSIO_CONNECTED_ACCOUNT_ID!,
-    user_id: process.env.COMPOSIO_USER_ID!,
+    entity_id: process.env.COMPOSIO_USER_ID!,
     arguments: {
       recipient_email: to,
+      sender_email: "bhargavitejacollections@gmail.com",
       subject,
       body: htmlBody,
       is_html: true,

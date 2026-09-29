@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const siteUrl = formData.get("siteUrl") as string;
     const paymentScreenshot = formData.get("paymentScreenshot") as File | null;
 
-    if (!process.env.COMPOSIO_API_KEY || !process.env.COMPOSIO_CONNECTED_ACCOUNT_ID || !process.env.COMPOSIO_USER_ID) {
+    if (!process.env.COMPOSIO_API_KEY || !process.env.COMPOSIO_USER_ID) {
       return NextResponse.json(
         { error: "Email service not configured" },
         { status: 500 }
@@ -137,6 +137,60 @@ export async function POST(request: NextRequest) {
       subject: `New Order from ${customerName} — ₹${Number(totalAmount).toLocaleString("en-IN")} | Status: Ordered`,
       htmlBody,
     });
+
+    if (customerEmail && customerEmail.trim()) {
+      try {
+        const customerHtml = `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;">
+            <div style="background:#1a3a2a;padding:20px;text-align:center;">
+              <h1 style="color:#D4A843;margin:0;font-size:22px;">Bhargavi Teja Collections</h1>
+            </div>
+            <div style="padding:24px;">
+              <div style="text-align:center;margin-bottom:24px;">
+                <div style="display:inline-block;background:#EAB308;color:#fff;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">
+                  Order Confirmed
+                </div>
+              </div>
+              <p style="font-size:16px;color:#333;">Dear ${customerName},</p>
+              <p style="font-size:15px;color:#555;line-height:1.6;">Thank you for your order! We have received it and will begin processing shortly. You will receive updates as your order progresses.</p>
+              <h3 style="color:#1a3a2a;border-bottom:2px solid #D4A843;padding-bottom:8px;font-size:15px;">Order Items</h3>
+              <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+                <thead>
+                  <tr style="background:#f0f5f1;">
+                    <th style="padding:8px 12px;border:1px solid #e5e7eb;text-align:left;font-size:13px;">Item</th>
+                    <th style="padding:8px 12px;border:1px solid #e5e7eb;text-align:center;font-size:13px;">Qty</th>
+                    <th style="padding:8px 12px;border:1px solid #e5e7eb;text-align:right;font-size:13px;">Price</th>
+                  </tr>
+                </thead>
+                <tbody>${items.map((item: { name: string; price: number; quantity: number }) => `<tr><td style="padding:8px 12px;border:1px solid #e5e7eb;">${item.name}</td><td style="padding:8px 12px;border:1px solid #e5e7eb;text-align:center;">${item.quantity || 1}</td><td style="padding:8px 12px;border:1px solid #e5e7eb;text-align:right;">₹${item.price.toLocaleString("en-IN")}</td></tr>`).join("")}</tbody>
+                <tfoot>
+                  <tr style="background:#1a3a2a;">
+                    <td colspan="2" style="padding:10px 12px;color:#fff;font-weight:700;font-size:14px;">Total</td>
+                    <td style="padding:10px 12px;color:#D4A843;font-weight:700;text-align:right;font-size:14px;">₹${Number(totalAmount).toLocaleString("en-IN")}</td>
+                  </tr>
+                </tfoot>
+              </table>
+              <div style="background:#f9fafb;border-radius:8px;padding:16px;margin:20px 0;">
+                <p style="margin:0 0 4px;font-size:13px;color:#888;">Delivery Address</p>
+                <p style="margin:0;font-size:14px;color:#333;">${addressLine1}${addressLine2 ? ", " + addressLine2 : ""}, ${city}, ${state} - ${pincode}</p>
+              </div>
+              <p style="font-size:14px;color:#888;margin-top:20px;">If you have any questions, feel free to call us at <strong>+91 91003 69789</strong>.</p>
+            </div>
+            <div style="background:#f0f5f1;padding:16px;text-align:center;color:#666;font-size:12px;">
+              <p style="margin:0;">Thank you for shopping with Bhargavi Teja Collections</p>
+            </div>
+          </div>
+        `;
+
+        await sendEmail({
+          to: customerEmail,
+          subject: `Order Confirmed — Bhargavi Teja Collections`,
+          htmlBody: customerHtml,
+        });
+      } catch (emailErr) {
+        console.error("Customer confirmation email failed:", emailErr);
+      }
+    }
 
     return NextResponse.json({ success: true, screenshotUrl: screenshotUrl || null });
   } catch (err) {
