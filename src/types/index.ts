@@ -14,6 +14,7 @@ export interface Product {
   images?: string[];
   description: string;
   inStock: boolean;
+  quantity?: number;
 }
 
 export interface OrderFormData {
@@ -27,4 +28,21 @@ export interface OrderFormData {
   pincode: string;
   selectedProduct: string;
   paymentScreenshot: string;
+}
+
+export interface Order {
+  id: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  pincode: string;
+  items: { id: string; name: string; price: number; quantity: number; image?: string }[];
+  totalAmount: number;
+  paymentScreenshotUrl: string;
+  status: "ordered" | "processing" | "shipped" | "delivered";
+  createdAt: string;
 }

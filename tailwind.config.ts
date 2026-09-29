@@ -15,17 +15,17 @@ const config: Config = {
           dark: "#8B6914",
         },
         burgundy: {
-          DEFAULT: "#800020",
-          light: "#A0334D",
-          dark: "#5C0017",
+          DEFAULT: "#1a3a2a",
+          light: "#2d5a42",
+          dark: "#0f2a1c",
         },
         cream: {
-          DEFAULT: "#FFF8DC",
-          dark: "#F5EDCC",
+          DEFAULT: "#f0f5f1",
+          dark: "#dce8de",
         },
         "brand-green": {
-          DEFAULT: "#006400",
-          light: "#228B22",
+          DEFAULT: "#1a3a2a",
+          light: "#2d5a42",
         },
       },
       fontFamily: {

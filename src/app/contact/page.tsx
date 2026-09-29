@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Contact Us | Bhargavi Collections",
-  description: "Get in touch with Bhargavi Collections for queries about 1 gram gold imitation jewellery.",
+  title: "Contact Us | Bhargavi Teja Collections",
+  description: "Get in touch with Bhargavi Teja Collections for queries about 1 gram gold imitation jewellery.",
 };
 
 export default function ContactPage() {
@@ -19,7 +19,7 @@ export default function ContactPage() {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <div className="bg-cream rounded-lg p-8">
-            <h2 className="font-heading text-2xl text-brand-green mb-6">Get in Touch</h2>
+            <h2 className="font-heading text-2xl text-burgundy mb-6">Get in Touch</h2>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-burgundy/10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -29,7 +29,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-800">Phone</h3>
-                  <a href="tel:+918978777800" className="text-burgundy hover:underline">+91 8978777800</a>
+                  <a href="tel:+919100369789" className="text-burgundy hover:underline">+91 91003 69789</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -40,7 +40,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-800">Email</h3>
-                  <a href="mailto:Prasannau.dwh@gmail.com" className="text-burgundy hover:underline">Prasannau.dwh@gmail.com</a>
+                  <a href="mailto:bhargavitejacollections@gmail.com" className="text-burgundy hover:underline">bhargavitejacollections@gmail.com</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -61,7 +61,7 @@ export default function ContactPage() {
 
         <div className="flex flex-col gap-6">
           <div className="bg-burgundy/5 rounded-lg p-8">
-            <h2 className="font-heading text-2xl text-brand-green mb-4">How to Order</h2>
+            <h2 className="font-heading text-2xl text-burgundy mb-4">How to Order</h2>
             <ol className="list-decimal list-inside space-y-3 text-gray-600">
               <li>Browse our collections and pick your favourite piece</li>
               <li>Click &ldquo;Order Now&rdquo; on the product page</li>

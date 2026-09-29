@@ -33,12 +33,12 @@
   }
 
   .section-title {
-    @apply font-heading text-3xl md:text-4xl text-brand-green text-center mb-8;
+    @apply font-heading text-3xl md:text-4xl text-burgundy text-center mb-8;
   }
 
   /* Ornate header background */
   .header-ornate {
-    background: linear-gradient(135deg, #4a0012 0%, #800020 30%, #5C0017 70%, #4a0012 100%);
+    background: linear-gradient(135deg, #0f2a1c 0%, #1a3a2a 30%, #142e20 70%, #0f2a1c 100%);
   }
 
   /* Header brand text with gold gradient */
@@ -49,53 +49,54 @@
     background-clip: text;
   }
 
-  /* Hero section ornate background */
+  /* Hero section background - subtle sage green gradient */
   .hero-ornate {
-    background: linear-gradient(135deg, #3a000e 0%, #800020 25%, #5C0017 50%, #800020 75%, #3a000e 100%);
+    background: linear-gradient(135deg, #8faa96 0%, #a8c4ae 25%, #c5d9c8 50%, #a8c4ae 75%, #8faa96 100%);
   }
 
-  /* Hero brand text with metallic gold gradient */
+  /* Hero brand text - dark green */
   .hero-brand-text {
-    background: linear-gradient(180deg, #f0d078 0%, #D4A843 25%, #B8860B 50%, #D4A843 75%, #f0d078 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 2px 4px rgba(184, 134, 11, 0.3));
+    color: #1a3a2a;
+    -webkit-text-fill-color: #1a3a2a;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    filter: none;
   }
 
   /* Hero primary button */
   .hero-btn-primary {
-    @apply px-8 py-3 rounded-md font-medium tracking-wide transition-all duration-300;
-    background: linear-gradient(135deg, #B8860B 0%, #D4A843 100%);
-    color: #3a000e;
-    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+    @apply px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300;
+    background: #1a3a2a;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(26, 58, 42, 0.3);
   }
   .hero-btn-primary:hover {
-    background: linear-gradient(135deg, #D4A843 0%, #f0d078 100%);
-    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.5);
+    background: #0f2a1c;
+    box-shadow: 0 6px 20px rgba(26, 58, 42, 0.4);
     transform: translateY(-1px);
   }
 
   /* Hero outline button */
   .hero-btn-outline {
-    @apply px-8 py-3 rounded-md font-medium tracking-wide transition-all duration-300;
-    border: 1.5px solid rgba(212, 168, 67, 0.5);
-    color: #D4A843;
+    @apply px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300;
+    border: 1.5px solid rgba(26, 58, 42, 0.4);
+    color: #1a3a2a;
   }
   .hero-btn-outline:hover {
-    border-color: #D4A843;
-    background: rgba(212, 168, 67, 0.1);
-    color: #f0d078;
+    border-color: #1a3a2a;
+    background: rgba(26, 58, 42, 0.08);
+    color: #0f2a1c;
   }
 
   /* Image glow effect */
   .hero-image-glow {
-    box-shadow: 0 0 40px rgba(184, 134, 11, 0.25), 0 0 80px rgba(128, 0, 32, 0.2);
+    box-shadow: 0 0 40px rgba(26, 58, 42, 0.15), 0 0 80px rgba(26, 58, 42, 0.1);
   }
 
   /* Mobile menu ornate */
   .mobile-menu-ornate {
-    background: linear-gradient(180deg, #4a0012 0%, #800020 50%, #5C0017 100%);
+    background: linear-gradient(180deg, #0f2a1c 0%, #1a3a2a 50%, #142e20 100%);
   }
 }
 

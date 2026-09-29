@@ -1,9 +1,23 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getFeaturedProducts } from "@/data/products";
+import { getAdminProducts, getAdminCategories } from "@/lib/storage";
 import ProductCard from "./ProductCard";
+import type { Product } from "@/types";
 
 export default function FeaturedProducts() {
-  const featured = getFeaturedProducts();
+  const [featured, setFeatured] = useState<Product[]>([]);
+  const [firstCategoryId, setFirstCategoryId] = useState("necklaces");
+
+  useEffect(() => {
+    const all = getAdminProducts();
+    setFeatured(all.filter((p) => p.inStock).slice(0, 8));
+    const cats = getAdminCategories();
+    if (cats.length > 0) setFirstCategoryId(cats[0].id);
+  }, []);
+
+  if (featured.length === 0) return null;
 
   return (
     <section className="py-12 md:py-16 bg-cream/50">
@@ -15,7 +29,7 @@ export default function FeaturedProducts() {
           ))}
         </div>
         <div className="text-center mt-8">
-          <Link href="/collections/necklaces" className="btn-gold inline-block">
+          <Link href={`/collections/${firstCategoryId}`} className="btn-gold inline-block">
             View All Products
           </Link>
         </div>

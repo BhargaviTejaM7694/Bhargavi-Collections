@@ -3,49 +3,97 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Product } from "@/types";
 
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
 interface CartContextType {
+  items: CartItem[];
   selectedItems: Product[];
+  addItem: (product: Product, quantity?: number) => void;
   toggleItem: (product: Product) => void;
   removeItem: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   isSelected: (productId: string) => boolean;
+  getQuantity: (productId: string) => number;
   clearCart: () => void;
   itemCount: number;
+  totalPrice: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [selectedItems, setSelectedItems] = useState<Product[]>([]);
+  const [items, setItems] = useState<CartItem[]>([]);
+
+  const addItem = (product: Product, quantity: number = 1) => {
+    setItems((prev) => {
+      const existing = prev.find((item) => item.product.id === product.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity }
+            : item
+        );
+      }
+      return [...prev, { product, quantity }];
+    });
+  };
 
   const toggleItem = (product: Product) => {
-    setSelectedItems((prev) => {
-      const exists = prev.find((p) => p.id === product.id);
+    setItems((prev) => {
+      const exists = prev.find((item) => item.product.id === product.id);
       if (exists) {
-        return prev.filter((p) => p.id !== product.id);
+        return prev.filter((item) => item.product.id !== product.id);
       }
-      return [...prev, product];
+      return [...prev, { product, quantity: 1 }];
     });
   };
 
   const removeItem = (productId: string) => {
-    setSelectedItems((prev) => prev.filter((p) => p.id !== productId));
+    setItems((prev) => prev.filter((item) => item.product.id !== productId));
+  };
+
+  const updateQuantity = (productId: string, quantity: number) => {
+    if (quantity < 1) return;
+    setItems((prev) =>
+      prev.map((item) =>
+        item.product.id === productId ? { ...item, quantity } : item
+      )
+    );
   };
 
   const isSelected = (productId: string) => {
-    return selectedItems.some((p) => p.id === productId);
+    return items.some((item) => item.product.id === productId);
   };
 
-  const clearCart = () => setSelectedItems([]);
+  const getQuantity = (productId: string) => {
+    return items.find((item) => item.product.id === productId)?.quantity || 0;
+  };
+
+  const clearCart = () => setItems([]);
+
+  const selectedItems = items.map((item) => item.product);
+  const totalPrice = items.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0
+  );
 
   return (
     <CartContext.Provider
       value={{
+        items,
         selectedItems,
+        addItem,
         toggleItem,
         removeItem,
+        updateQuantity,
         isSelected,
+        getQuantity,
         clearCart,
-        itemCount: selectedItems.length,
+        itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+        totalPrice,
       }}
     >
       {children}

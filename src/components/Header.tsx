@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import { useCart } from "@/context/CartContext";
+import { getAdminCategories } from "@/lib/storage";
+import type { Category } from "@/types";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/collections/necklaces", label: "Shop" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -15,12 +16,29 @@ const navLinks = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const { itemCount } = useCart();
+  const shopRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setCategories(getAdminCategories());
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (shopRef.current && !shopRef.current.contains(e.target as Node)) {
+        setShopOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -29,16 +47,16 @@ export default function Header() {
         {/* Top announcement bar */}
         <div className="bg-gradient-to-r from-burgundy-dark via-burgundy to-burgundy-dark text-center text-sm py-1.5 px-4">
           <span className="text-gold-light tracking-wide">
-            Free Delivery on Orders Above ₹999
+            Free Delivery on All Orders
           </span>
           <span className="text-gold-light/50 mx-2">|</span>
-          <a href="tel:+918978777800" className="text-white hover:text-gold-light transition-colors">
-            Call: +91 8978777800
+          <a href="tel:+919100369789" className="text-white hover:text-gold-light transition-colors">
+            Call: +91 91003 69789
           </a>
         </div>
 
         {/* Main header */}
-        <div className="header-ornate relative overflow-hidden">
+        <div className="header-ornate relative">
           {/* Ornamental background pattern */}
           <div className="absolute inset-0 opacity-[0.08]">
             <svg className="w-full h-full" viewBox="0 0 1200 80" preserveAspectRatio="xMidYMid slice">
@@ -58,7 +76,7 @@ export default function Header() {
             </svg>
           </div>
 
-          {/* Gold border accents */}
+          {/* Border accents */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-light to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-light to-transparent" />
 
@@ -85,7 +103,7 @@ export default function Header() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">
-                    Bhargavi
+                    Bhargavi Teja
                   </span>
                   <span className="font-heading text-[10px] md:text-xs text-gold-light tracking-[0.25em] uppercase leading-tight">
                     Collections
@@ -93,23 +111,65 @@ export default function Header() {
                 </div>
               </Link>
 
-              {/* Nav links - all on the left */}
+              {/* Nav links */}
               <nav className="hidden lg:flex items-center gap-6 ml-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                <Link
+                  href="/"
+                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                >
+                  Home
+                </Link>
+
+                {/* Shop dropdown */}
+                <div ref={shopRef} className="relative">
+                  <button
+                    onClick={() => setShopOpen(!shopOpen)}
+                    className="flex items-center gap-1 text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
                   >
-                    {link.label}
-                  </Link>
-                ))}
+                    Shop
+                    <svg
+                      className={`w-4 h-4 transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {shopOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
+                      {categories.map((cat) => (
+                        <Link
+                          key={cat.id}
+                          href={`/collections/${cat.id}`}
+                          onClick={() => setShopOpen(false)}
+                          className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-cream hover:text-burgundy transition-colors"
+                        >
+                          {cat.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <Link
+                  href="/about"
+                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                >
+                  About
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-cream/90 hover:text-gold-light font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                >
+                  Contact
+                </Link>
               </nav>
             </div>
 
             {/* Right: Cart bag + Admin Login */}
             <div className="flex items-center gap-4">
-              {/* Cart bag icon with count */}
               <Link
                 href="/order"
                 className="relative text-gold-light hover:text-gold transition-colors"
@@ -125,7 +185,6 @@ export default function Header() {
                 )}
               </Link>
 
-              {/* Admin Login */}
               <Link
                 href="/admin"
                 className="hidden lg:flex items-center gap-1.5 text-gold-light/70 hover:text-gold-light text-sm font-medium tracking-wide uppercase transition-colors duration-200 border border-gold/30 hover:border-gold/60 rounded-md px-3 py-1.5"
@@ -140,7 +199,12 @@ export default function Header() {
         </div>
       </header>
 
-      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} links={navLinks} />
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        links={navLinks}
+        categories={categories}
+      />
     </>
   );
 }

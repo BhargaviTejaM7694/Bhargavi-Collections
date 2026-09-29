@@ -18,9 +18,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Bhargavi Collections | 1 Gram Gold Jewellery",
+  title: "Bhargavi Teja Collections | 1 Gram Gold Jewellery",
   description:
-    "Shop beautiful 1 gram gold imitation jewellery — necklaces, earrings, bangles, chains, rings, pendants, and long harams. Bhargavi Collections.",
+    "Shop beautiful 1 gram gold imitation jewellery — necklaces, earrings, bangles, chains, rings, pendants, and long harams. Bhargavi Teja Collections.",
 };
 
 export default function RootLayout({

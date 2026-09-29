@@ -1,30 +1,72 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { products, getProductById } from "@/data/products";
-import { categories } from "@/data/categories";
+import { getAdminProducts, getAdminCategories } from "@/lib/storage";
+import { useCart } from "@/context/CartContext";
+import type { Product, Category } from "@/types";
 
-interface ProductPageProps {
-  params: { id: string };
-}
+export default function ProductPage() {
+  const params = useParams();
+  const router = useRouter();
+  const productId = params.id as string;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [category, setCategory] = useState<Category | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+  const { addItem } = useCart();
 
-export function generateStaticParams() {
-  return products.map((p) => ({ id: p.id }));
-}
+  useEffect(() => {
+    const products = getAdminProducts();
+    const categories = getAdminCategories();
+    const found = products.find((p) => p.id === productId) || null;
+    setProduct(found);
+    if (found) {
+      setCategory(categories.find((c) => c.id === found.category) || null);
+    }
+    setLoading(false);
+  }, [productId]);
 
-export function generateMetadata({ params }: ProductPageProps) {
-  const product = getProductById(params.id);
-  if (!product) return {};
-  return {
-    title: `${product.name} | Bhargavi Collections`,
-    description: product.description,
+  const maxQuantity = product?.quantity ?? 10;
+
+  const handleDecrement = () => {
+    if (quantity > 1) setQuantity(quantity - 1);
   };
-}
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = getProductById(params.id);
-  if (!product) notFound();
+  const handleIncrement = () => {
+    if (quantity < maxQuantity) setQuantity(quantity + 1);
+  };
 
-  const category = categories.find((c) => c.id === product.category);
+  const handleOrderNow = () => {
+    if (product) {
+      addItem(product, quantity);
+      router.push("/order");
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (product) {
+      addItem(product, quantity);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[50vh] flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-burgundy border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <h1 className="font-heading text-3xl text-gray-800 mb-4">Product Not Found</h1>
+        <Link href="/" className="text-burgundy hover:underline">Back to Home</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -49,6 +91,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
       <div className="grid md:grid-cols-2 gap-8 md:gap-12">
         <div className="aspect-square bg-cream rounded-lg overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.image}
             alt={product.name}
@@ -64,7 +107,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             ₹{product.price.toLocaleString("en-IN")}
           </p>
           {category && (
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-gray-500 mb-2">
               Category:{" "}
               <Link
                 href={`/collections/${category.id}`}
@@ -74,17 +117,64 @@ export default function ProductPage({ params }: ProductPageProps) {
               </Link>
             </p>
           )}
-          <p className="text-gray-600 leading-relaxed mb-8">
+          {product.quantity !== undefined && (
+            <p className="text-sm text-gray-500 mb-4">
+              {product.inStock
+                ? `${product.quantity} piece${product.quantity !== 1 ? "s" : ""} available`
+                : "Out of Stock"}
+            </p>
+          )}
+          <p className="text-gray-600 leading-relaxed mb-6">
             {product.description}
           </p>
+
+          {product.inStock && (
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Quantity
+              </label>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={handleDecrement}
+                    disabled={quantity <= 1}
+                    className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-lg"
+                  >
+                    −
+                  </button>
+                  <span className="w-12 h-10 flex items-center justify-center text-gray-900 font-medium border-x border-gray-300">
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleIncrement}
+                    disabled={quantity >= maxQuantity}
+                    className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-lg"
+                  >
+                    +
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  className="flex-1 border border-burgundy text-burgundy px-6 py-2.5 rounded-lg font-medium hover:bg-burgundy hover:text-white transition-colors"
+                >
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-3">
             {product.inStock ? (
-              <Link
-                href={`/order?product=${product.id}`}
+              <button
+                type="button"
+                onClick={handleOrderNow}
                 className="btn-primary text-center"
               >
                 Order Now
-              </Link>
+              </button>
             ) : (
               <span className="bg-gray-300 text-gray-600 px-6 py-3 rounded-md text-center font-medium">
                 Out of Stock

@@ -3,10 +3,9 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { uploadToCloudinary } from "@/lib/cloudinary";
-import { sendOrderEmail } from "@/lib/emailjs";
+import { saveOrder, generateOrderId, reduceProductQuantity, getAdminProducts } from "@/lib/storage";
+import type { Product } from "@/types";
 
 const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -20,8 +19,9 @@ const INDIAN_STATES = [
 export default function OrderForm() {
   const searchParams = useSearchParams();
   const preselectedProduct = searchParams.get("product") || "";
-  const { selectedItems, removeItem, toggleItem, clearCart } = useCart();
+  const { items, addItem, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
 
+  const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -40,10 +40,12 @@ export default function OrderForm() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const allProducts = getAdminProducts();
+    setProducts(allProducts);
     if (preselectedProduct) {
-      const product = products.find((p) => p.id === preselectedProduct);
-      if (product && !selectedItems.find((p) => p.id === preselectedProduct)) {
-        toggleItem(product);
+      const product = allProducts.find((p) => p.id === preselectedProduct);
+      if (product && !items.find((item) => item.product.id === preselectedProduct)) {
+        addItem(product, 1);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,9 +55,7 @@ export default function OrderForm() {
   const isValidPhone = (phone: string) => /^[6-9]\d{9}$/.test(phone);
   const isValidPincode = (pincode: string) => /^\d{6}$/.test(pincode);
 
-  const hasItems = selectedItems.length > 0;
-
-  const totalPrice = selectedItems.reduce((sum, item) => sum + item.price, 0);
+  const hasItems = items.length > 0;
 
   const isFormValid =
     form.name.trim() !== "" &&
@@ -75,8 +75,8 @@ export default function OrderForm() {
   const handleAddProduct = () => {
     if (form.additionalProduct) {
       const product = products.find((p) => p.id === form.additionalProduct);
-      if (product && !selectedItems.find((p) => p.id === product.id)) {
-        toggleItem(product);
+      if (product && !items.find((item) => item.product.id === product.id)) {
+        addItem(product, 1);
       }
       setForm({ ...form, additionalProduct: "" });
     }
@@ -90,9 +90,37 @@ export default function OrderForm() {
     setError("");
 
     try {
-      const screenshotUrl = await uploadToCloudinary(paymentFile);
+      const orderItems = items.map((item) => ({
+        id: item.product.id,
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+        image: item.product.image,
+      }));
 
-      await sendOrderEmail({
+      const formData = new FormData();
+      formData.append("customerName", form.name);
+      formData.append("customerEmail", form.email);
+      formData.append("customerPhone", form.phone);
+      formData.append("addressLine1", form.addressLine1);
+      formData.append("addressLine2", form.addressLine2);
+      formData.append("city", form.city);
+      formData.append("state", form.state);
+      formData.append("pincode", form.pincode);
+      formData.append("items", JSON.stringify(orderItems));
+      formData.append("totalAmount", totalPrice.toString());
+      formData.append("siteUrl", window.location.origin);
+      formData.append("paymentScreenshot", paymentFile);
+
+      const response = await fetch("/api/orders", { method: "POST", body: formData });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to submit order");
+      }
+
+      saveOrder({
+        id: generateOrderId(),
         customerName: form.name,
         customerEmail: form.email,
         customerPhone: form.phone,
@@ -101,11 +129,14 @@ export default function OrderForm() {
         city: form.city,
         state: form.state,
         pincode: form.pincode,
-        productName: selectedItems.map((p) => p.name).join(", "),
-        productPrice: `₹${totalPrice.toLocaleString("en-IN")} (${selectedItems.length} item${selectedItems.length > 1 ? "s" : ""})`,
-        productLink: selectedItems.map((p) => `${window.location.origin}/products/${p.id}`).join(", "),
-        paymentScreenshotUrl: screenshotUrl,
+        items: orderItems,
+        totalAmount: totalPrice,
+        paymentScreenshotUrl: result.screenshotUrl || "",
+        status: "ordered",
+        createdAt: new Date().toISOString(),
       });
+
+      reduceProductQuantity(items.map((item) => ({ id: item.product.id, quantity: item.quantity })));
 
       clearCart();
       setSubmitted(true);
@@ -124,7 +155,7 @@ export default function OrderForm() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="font-heading text-2xl text-brand-green mb-2">Order Submitted!</h2>
+        <h2 className="font-heading text-2xl text-burgundy mb-2">Order Submitted!</h2>
         <p className="text-gray-600">Thank you for your order. We will contact you shortly to confirm.</p>
       </div>
     );
@@ -132,6 +163,7 @@ export default function OrderForm() {
 
   const inputClass = "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors";
   const labelClass = "block text-sm font-medium text-gray-700 mb-1";
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -141,36 +173,61 @@ export default function OrderForm() {
 
       {/* Selected Items Section */}
       <div>
-        <h3 className="font-heading text-xl text-brand-green mb-4">Selected Items</h3>
+        <h3 className="font-heading text-xl text-burgundy mb-4">Selected Items</h3>
 
         {hasItems ? (
           <div className="space-y-3">
-            {selectedItems.map((item) => (
+            {items.map((cartItem) => (
               <div
-                key={item.id}
+                key={cartItem.product.id}
                 className="flex items-center gap-3 bg-cream/50 border border-gold/20 rounded-lg p-3"
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={cartItem.product.image}
+                  alt={cartItem.product.name}
                   className="w-14 h-14 rounded-md object-cover"
                 />
                 <div className="flex-1 min-w-0">
                   <Link
-                    href={`/products/${item.id}`}
+                    href={`/products/${cartItem.product.id}`}
                     className="font-medium text-gray-800 hover:text-burgundy transition-colors text-sm truncate block"
                   >
-                    {item.name}
+                    {cartItem.product.name}
                   </Link>
                   <p className="text-gold font-bold text-sm">
-                    ₹{item.price.toLocaleString("en-IN")}
+                    ₹{cartItem.product.price.toLocaleString("en-IN")}
+                    {cartItem.quantity > 1 && (
+                      <span className="text-gray-500 font-normal"> × {cartItem.quantity} = ₹{(cartItem.product.price * cartItem.quantity).toLocaleString("en-IN")}</span>
+                    )}
                   </p>
+                </div>
+                <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(cartItem.product.id, cartItem.quantity - 1)}
+                    disabled={cartItem.quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
+                  >
+                    −
+                  </button>
+                  <span className="w-8 h-8 flex items-center justify-center text-gray-900 font-medium text-sm border-x border-gray-300">
+                    {cartItem.quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(cartItem.product.id, cartItem.quantity + 1)}
+                    disabled={cartItem.quantity >= (cartItem.product.quantity ?? 10)}
+                    className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
+                  >
+                    +
+                  </button>
                 </div>
                 <button
                   type="button"
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => removeItem(cartItem.product.id)}
                   className="text-gray-400 hover:text-red-500 transition-colors p-1"
-                  aria-label={`Remove ${item.name}`}
+                  aria-label={`Remove ${cartItem.product.name}`}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -182,7 +239,7 @@ export default function OrderForm() {
             {/* Total */}
             <div className="flex justify-between items-center pt-2 border-t border-gold/20">
               <span className="font-medium text-gray-700">
-                Total ({selectedItems.length} item{selectedItems.length > 1 ? "s" : ""})
+                Total ({totalItems} item{totalItems !== 1 ? "s" : ""})
               </span>
               <span className="text-gold font-bold text-lg">
                 ₹{totalPrice.toLocaleString("en-IN")}
@@ -211,7 +268,7 @@ export default function OrderForm() {
           >
             <option value="">Add more items...</option>
             {products
-              .filter((p) => p.inStock && !selectedItems.find((s) => s.id === p.id))
+              .filter((p) => p.inStock && !items.find((item) => item.product.id === p.id))
               .map((product) => (
                 <option key={product.id} value={product.id}>
                   {product.name} — ₹{product.price.toLocaleString("en-IN")}
@@ -234,7 +291,7 @@ export default function OrderForm() {
       </div>
 
       <div>
-        <h3 className="font-heading text-xl text-brand-green mb-4">Personal Details</h3>
+        <h3 className="font-heading text-xl text-burgundy mb-4">Personal Details</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name" className={labelClass}>Full Name *</label>
@@ -249,7 +306,7 @@ export default function OrderForm() {
             <label htmlFor="phone" className={labelClass}>Phone Number *</label>
             <div className="flex">
               <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-gray-500 text-sm">+91</span>
-              <input id="phone" name="phone" type="tel" required maxLength={10} value={form.phone} onChange={handleChange} placeholder="9876543210" className={`${inputClass} rounded-l-none`} />
+              <input id="phone" name="phone" type="tel" required maxLength={10} value={form.phone} onChange={handleChange} placeholder="9876543210" className={inputClass} />
             </div>
             {form.phone && !isValidPhone(form.phone) && <p className="text-red-500 text-xs mt-1">Enter a valid 10-digit mobile number</p>}
           </div>
@@ -257,7 +314,7 @@ export default function OrderForm() {
       </div>
 
       <div>
-        <h3 className="font-heading text-xl text-brand-green mb-4">Delivery Address</h3>
+        <h3 className="font-heading text-xl text-burgundy mb-4">Delivery Address</h3>
         <div className="space-y-4">
           <div>
             <label htmlFor="addressLine1" className={labelClass}>Address Line 1 *</label>
@@ -291,7 +348,7 @@ export default function OrderForm() {
       </div>
 
       <div>
-        <h3 className="font-heading text-xl text-brand-green mb-4">Payment</h3>
+        <h3 className="font-heading text-xl text-burgundy mb-4">Payment</h3>
         <div>
           <label htmlFor="paymentScreenshot" className={labelClass}>Payment Screenshot *</label>
           <p className="text-sm text-gray-500 mb-2">Upload a screenshot of your payment (UPI / Bank Transfer)</p>

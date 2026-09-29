@@ -3,8 +3,8 @@ import Link from "next/link";
 import OrderForm from "@/components/OrderForm";
 
 export const metadata = {
-  title: "Place Order | Bhargavi Collections",
-  description: "Place your order for 1 gram gold imitation jewellery from Bhargavi Collections.",
+  title: "Place Order | Bhargavi Teja Collections",
+  description: "Place your order for 1 gram gold imitation jewellery from Bhargavi Teja Collections.",
 };
 
 export default function OrderPage() {

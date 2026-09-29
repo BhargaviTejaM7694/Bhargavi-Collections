@@ -1,31 +1,44 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { categories } from "@/data/categories";
-import { getProductsByCategory } from "@/data/products";
+import { getAdminCategories, getAdminProducts } from "@/lib/storage";
 import ProductCard from "@/components/ProductCard";
+import type { Category, Product } from "@/types";
 
-interface CategoryPageProps {
-  params: { category: string };
-}
+export default function CategoryPage() {
+  const params = useParams();
+  const categoryId = params.category as string;
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export function generateStaticParams() {
-  return categories.map((cat) => ({ category: cat.id }));
-}
+  useEffect(() => {
+    setCategories(getAdminCategories());
+    setProducts(getAdminProducts());
+    setLoading(false);
+  }, []);
 
-export function generateMetadata({ params }: CategoryPageProps) {
-  const category = categories.find((c) => c.id === params.category);
-  if (!category) return {};
-  return {
-    title: `${category.name} | Bhargavi Collections`,
-    description: category.description,
-  };
-}
+  if (loading) {
+    return (
+      <div className="min-h-[50vh] flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-burgundy border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const category = categories.find((c) => c.id === params.category);
-  if (!category) notFound();
+  const category = categories.find((c) => c.id === categoryId);
+  const categoryProducts = products.filter((p) => p.category === categoryId);
 
-  const categoryProducts = getProductsByCategory(params.category);
+  if (!category) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <h1 className="font-heading text-3xl text-gray-800 mb-4">Category Not Found</h1>
+        <Link href="/" className="text-burgundy hover:underline">Back to Home</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -44,7 +57,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             key={cat.id}
             href={`/collections/${cat.id}`}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-              cat.id === params.category
+              cat.id === categoryId
                 ? "bg-burgundy text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
