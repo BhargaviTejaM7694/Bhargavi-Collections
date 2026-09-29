@@ -60,7 +60,7 @@ export default function OrderForm() {
 
   const isFormValid =
     form.name.trim() !== "" &&
-    isValidEmail(form.email) &&
+    (form.email === "" || isValidEmail(form.email)) &&
     isValidPhone(form.phone) &&
     form.addressLine1.trim() !== "" &&
     form.city.trim() !== "" &&
@@ -299,8 +299,8 @@ export default function OrderForm() {
             <input id="name" name="name" type="text" required value={form.name} onChange={handleChange} placeholder="Enter your full name" className={inputClass} />
           </div>
           <div>
-            <label htmlFor="email" className={labelClass}>Email ID *</label>
-            <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="yourname@gmail.com" className={inputClass} />
+            <label htmlFor="email" className={labelClass}>Email ID</label>
+            <input id="email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="yourname@gmail.com (optional)" className={inputClass} />
             {form.email && !isValidEmail(form.email) && <p className="text-red-500 text-xs mt-1">Enter a valid email address</p>}
           </div>
           <div>

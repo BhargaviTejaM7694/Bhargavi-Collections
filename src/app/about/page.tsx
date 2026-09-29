@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "About Us | Bhargavi Teja Collections",
-  description: "Learn about Bhargavi Teja Collections — your trusted source for 1 gram gold imitation jewellery.",
+  title: "About Us",
+  description: "Learn about Bhargavi Teja Collections from Hanuman Junction, near Vijayawada — your trusted source for premium 1 gram gold imitation jewellery in Andhra Pradesh. Quality craftsmanship at affordable prices.",
 };
 
 export default function AboutPage() {
@@ -27,7 +27,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
             <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,6 +54,25 @@ export default function AboutPage() {
             </div>
             <h3 className="font-heading text-lg text-burgundy mb-2">Reliable Delivery</h3>
             <p className="text-gray-600 text-sm">Safe and secure delivery to your doorstep with careful packaging.</p>
+          </div>
+        </div>
+
+        {/* Detailed SEO content */}
+        <div className="bg-cream rounded-lg p-8">
+          <h2 className="font-heading text-2xl text-burgundy mb-4">Best 1 Gram Gold Imitation Jewellery in Vijayawada &amp; Hanuman Junction</h2>
+          <div className="text-gray-600 leading-relaxed space-y-4">
+            <p>
+              Welcome to <strong>Bhargavi Teja Collections</strong>, your trusted destination for premium <strong>1 gram gold imitation jewellery</strong> from <strong>Hanuman Junction</strong>, near <strong>Vijayawada, Andhra Pradesh</strong>. We offer an exquisite range of gold-plated jewellery including necklaces, earrings, bangles, chains, rings, pendants, long harams, chokers, bridal sets, and temple jewellery — all at affordable prices.
+            </p>
+            <p>
+              Whether you&apos;re looking for <strong>bridal jewellery in Vijayawada</strong>, <strong>artificial jewellery near Hanuman Junction</strong>, or <strong>fashion jewellery in Andhra Pradesh</strong>, we have the perfect collection for every occasion — weddings, festivals, engagements, and everyday wear.
+            </p>
+            <p>
+              We proudly serve customers across <strong>Krishna district</strong> and beyond — including <strong>Vijayawada</strong>, <strong>Gudivada</strong>, <strong>Machilipatnam</strong>, <strong>Tenali</strong>, <strong>Guntur</strong>, <strong>Eluru</strong>, <strong>Rajahmundry</strong>, and all cities in <strong>Andhra Pradesh</strong>. Enjoy <strong>free delivery on all orders</strong> with quality assurance and beautiful packaging.
+            </p>
+            <p>
+              Shop online or call us at <a href="tel:+919100369789" className="text-burgundy font-medium hover:underline">+91 91003 69789</a> to place your order. Experience the elegance of traditional Indian jewellery craftsmanship at unbeatable prices with Bhargavi Teja Collections.
+            </p>
           </div>
         </div>
       </div>
