@@ -3,77 +3,9 @@ import Link from "next/link";
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden hero-ornate">
-      {/* Gold ornamental SVG background pattern */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Top-right mandala */}
-        <svg
-          className="absolute -top-20 -right-20 w-[500px] h-[500px] opacity-[0.08]"
-          viewBox="0 0 400 400"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="200" cy="200" r="180" stroke="#D4A843" strokeWidth="1" />
-          <circle cx="200" cy="200" r="150" stroke="#D4A843" strokeWidth="0.8" />
-          <circle cx="200" cy="200" r="120" stroke="#D4A843" strokeWidth="0.6" />
-          <circle cx="200" cy="200" r="90" stroke="#D4A843" strokeWidth="0.5" />
-          {/* Petals */}
-          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle) => (
-            <g key={angle} transform={`rotate(${angle} 200 200)`}>
-              <path
-                d="M200 20 Q220 100 200 180 Q180 100 200 20"
-                stroke="#D4A843"
-                strokeWidth="0.8"
-                fill="none"
-              />
-              <path
-                d="M200 50 Q210 120 200 160 Q190 120 200 50"
-                stroke="#D4A843"
-                strokeWidth="0.5"
-                fill="none"
-              />
-            </g>
-          ))}
-          {/* Inner star */}
-          {[0, 45, 90, 135].map((angle) => (
-            <line
-              key={`star-${angle}`}
-              x1="200"
-              y1="80"
-              x2="200"
-              y2="320"
-              stroke="#D4A843"
-              strokeWidth="0.4"
-              transform={`rotate(${angle} 200 200)`}
-            />
-          ))}
-        </svg>
-
-        {/* Bottom-left mandala */}
-        <svg
-          className="absolute -bottom-32 -left-32 w-[600px] h-[600px] opacity-[0.06]"
-          viewBox="0 0 400 400"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="200" cy="200" r="190" stroke="#D4A843" strokeWidth="1.2" />
-          <circle cx="200" cy="200" r="160" stroke="#D4A843" strokeWidth="1" />
-          <circle cx="200" cy="200" r="130" stroke="#D4A843" strokeWidth="0.8" />
-          <circle cx="200" cy="200" r="100" stroke="#D4A843" strokeWidth="0.6" />
-          <circle cx="200" cy="200" r="70" stroke="#D4A843" strokeWidth="0.4" />
-          {[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5].map((angle) => (
-            <g key={angle} transform={`rotate(${angle} 200 200)`}>
-              <path
-                d="M200 10 Q215 100 200 190 Q185 100 200 10"
-                stroke="#D4A843"
-                strokeWidth="0.6"
-                fill="none"
-              />
-            </g>
-          ))}
-        </svg>
-
-        {/* Scattered gold dots / small circles */}
-        <svg className="absolute top-0 left-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg">
+      {/* Subtle gold dot pattern background */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden="true">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <pattern id="gold-dots" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
             <circle cx="30" cy="30" r="1" fill="#D4A843" />
           </pattern>
