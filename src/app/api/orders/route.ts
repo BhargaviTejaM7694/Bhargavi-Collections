@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const recipientEmail = process.env.ORDER_RECIPIENT_EMAIL || "prasannau.dwh@gmail.com";
+    const recipientEmail = process.env.ORDER_RECIPIENT_EMAIL || "bhargavitejacollections@gmail.com";
 
     let screenshotUrl = "";
     if (paymentScreenshot) {

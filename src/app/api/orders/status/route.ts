@@ -37,15 +37,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, emailSent: false });
     }
 
-    if (!customerEmail || !customerEmail.trim()) {
-      return NextResponse.json({ success: true, emailSent: false, reason: "No customer email" });
-    }
-
     if (!process.env.COMPOSIO_API_KEY || !process.env.COMPOSIO_USER_ID) {
       return NextResponse.json({ success: true, emailSent: false, reason: "Email not configured" });
     }
 
     const { subject, heading, message, color } = statusMessages[newStatus];
+    const hasCustomerEmail = customerEmail && customerEmail.trim();
 
     const itemRows = (items as { name: string; price: number }[])
       .map(
@@ -104,11 +101,64 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
-    await sendEmail({
-      to: customerEmail,
-      subject: `${subject} — ${orderId}`,
-      htmlBody,
-    });
+    if (hasCustomerEmail) {
+      await sendEmail({
+        to: customerEmail,
+        subject: `${subject} — ${orderId}`,
+        htmlBody,
+      });
+    }
+
+    const ownerEmail = process.env.ORDER_RECIPIENT_EMAIL || "bhargavitejacollections@gmail.com";
+    try {
+      const ownerHtml = `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;">
+          <div style="background:#1a3a2a;padding:20px;text-align:center;">
+            <h1 style="color:#D4A843;margin:0;font-size:22px;">Order Status Updated</h1>
+            <p style="color:#f0f5f1;margin:8px 0 0;">Bhargavi Teja Collections</p>
+          </div>
+          <div style="padding:24px;">
+            <div style="text-align:center;margin-bottom:24px;">
+              <div style="display:inline-block;background:${color};color:#fff;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">
+                ${heading}
+              </div>
+            </div>
+            <table style="width:100%;margin-bottom:20px;">
+              <tr><td style="padding:4px 0;color:#666;width:130px;">Order ID:</td><td style="padding:4px 0;font-weight:600;">${orderId}</td></tr>
+              <tr><td style="padding:4px 0;color:#666;">Customer:</td><td style="padding:4px 0;font-weight:600;">${customerName}</td></tr>
+              <tr><td style="padding:4px 0;color:#666;">Email:</td><td style="padding:4px 0;">${customerEmail}</td></tr>
+              <tr><td style="padding:4px 0;color:#666;">New Status:</td><td style="padding:4px 0;"><span style="background:${color};color:#fff;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;">${heading}</span></td></tr>
+            </table>
+            <h3 style="color:#1a3a2a;border-bottom:2px solid #D4A843;padding-bottom:8px;font-size:15px;">Order Items</h3>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+              <thead>
+                <tr style="background:#f0f5f1;">
+                  <th style="padding:8px 12px;border:1px solid #e5e7eb;text-align:left;font-size:13px;">Item</th>
+                  <th style="padding:8px 12px;border:1px solid #e5e7eb;text-align:right;font-size:13px;">Price</th>
+                </tr>
+              </thead>
+              <tbody>${itemRows}</tbody>
+              <tfoot>
+                <tr style="background:#1a3a2a;">
+                  <td style="padding:10px 12px;color:#fff;font-weight:700;font-size:14px;">Total</td>
+                  <td style="padding:10px 12px;color:#D4A843;font-weight:700;text-align:right;font-size:14px;">₹${Number(totalAmount).toLocaleString("en-IN")}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div style="background:#f0f5f1;padding:16px;text-align:center;color:#666;font-size:12px;">
+            <p style="margin:0;">Automated notification from Bhargavi Teja Collections</p>
+          </div>
+        </div>
+      `;
+      await sendEmail({
+        to: ownerEmail,
+        subject: `Order ${orderId} — Status: ${heading} | ${customerName}`,
+        htmlBody: ownerHtml,
+      });
+    } catch (ownerErr) {
+      console.error("Owner status notification email failed:", ownerErr);
+    }
 
     return NextResponse.json({ success: true, emailSent: true });
   } catch (err) {

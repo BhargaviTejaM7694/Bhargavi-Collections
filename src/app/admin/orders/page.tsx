@@ -139,7 +139,7 @@ function OrdersManagement() {
       const result = await res.json();
 
       if (result.emailSent) {
-        setStatusMessage({ orderId: order.id, message: `Email sent to ${order.customerEmail}`, type: "success" });
+        setStatusMessage({ orderId: order.id, message: order.customerEmail ? `Emails sent to customer & owner` : `Email sent to owner`, type: "success" });
       } else {
         setStatusMessage({ orderId: order.id, message: "Status updated (email not configured)", type: "success" });
       }
