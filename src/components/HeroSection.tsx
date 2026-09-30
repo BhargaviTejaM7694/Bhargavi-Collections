@@ -90,18 +90,13 @@ export default function HeroSection() {
 
               {/* Logo in the center - fills the mandala circle */}
               <div className="w-[9rem] h-[9rem] md:w-[11rem] md:h-[11rem] lg:w-[13rem] lg:h-[13rem] relative z-10 rounded-full overflow-hidden mt-1 md:mt-2 lg:mt-2" style={{
-                background: "radial-gradient(circle, #6b2020 0%, #5a1a1a 40%, #4d1515 70%, #3a0a0a 100%)",
                 boxShadow: "0 0 40px rgba(90, 26, 26, 0.8), 0 0 80px rgba(77, 21, 21, 0.5), 0 0 120px rgba(58, 10, 10, 0.3)",
               }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo-hero.webp"
                   alt="Bhargavi Teja Collections Logo"
-                  className="w-full h-full object-contain"
-                  style={{
-                    mixBlendMode: "screen",
-                    filter: "contrast(1.3) saturate(1.3)",
-                  }}
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
