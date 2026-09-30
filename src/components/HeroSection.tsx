@@ -89,9 +89,9 @@ export default function HeroSection() {
               </div>
 
               {/* Logo in the center - fills the mandala circle */}
-              <div className="w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 relative z-10 rounded-full overflow-hidden" style={{
-                WebkitMaskImage: "radial-gradient(circle, black 50%, transparent 70%)",
-                maskImage: "radial-gradient(circle, black 50%, transparent 70%)",
+              <div className="w-[9rem] h-[9rem] md:w-[11rem] md:h-[11rem] lg:w-[13rem] lg:h-[13rem] relative z-10 rounded-full overflow-hidden mt-1 md:mt-2 lg:mt-2" style={{
+                background: "radial-gradient(circle, #4d1515 0%, #3a0a0a 70%, #3a0a0a 100%)",
+                boxShadow: "0 0 30px rgba(77, 21, 21, 0.6), 0 0 60px rgba(58, 10, 10, 0.4)",
               }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -100,7 +100,7 @@ export default function HeroSection() {
                   className="w-full h-full object-contain"
                   style={{
                     mixBlendMode: "screen",
-                    filter: "brightness(1.2)",
+                    filter: "brightness(1.4) saturate(1.2)",
                   }}
                 />
               </div>
