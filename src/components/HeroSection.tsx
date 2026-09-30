@@ -89,14 +89,14 @@ export default function HeroSection() {
               </div>
 
               {/* Logo in the center - fills the mandala circle */}
-              <div className="w-[9rem] h-[9rem] md:w-[11rem] md:h-[11rem] lg:w-[13rem] lg:h-[13rem] relative z-10 rounded-full overflow-hidden mt-1 md:mt-2 lg:mt-2" style={{
+              <div className="w-[7.5rem] h-[7.5rem] md:w-[9.5rem] md:h-[9.5rem] lg:w-[11rem] lg:h-[11rem] relative z-10 rounded-full overflow-hidden mt-1 md:mt-2 lg:mt-2" style={{
                 boxShadow: "0 0 40px rgba(90, 26, 26, 0.8), 0 0 80px rgba(77, 21, 21, 0.5), 0 0 120px rgba(58, 10, 10, 0.3)",
               }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo-hero.webp"
                   alt="Bhargavi Teja Collections Logo"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
