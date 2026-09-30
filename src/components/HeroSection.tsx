@@ -89,14 +89,16 @@ export default function HeroSection() {
               </div>
 
               {/* Logo in the center - fills the mandala circle */}
-              <div className="w-[7.5rem] h-[7.5rem] md:w-[9.5rem] md:h-[9.5rem] lg:w-[11rem] lg:h-[11rem] relative z-10 rounded-full overflow-hidden mt-1 md:mt-2 lg:mt-2" style={{
-                boxShadow: "0 0 40px rgba(90, 26, 26, 0.8), 0 0 80px rgba(77, 21, 21, 0.5), 0 0 120px rgba(58, 10, 10, 0.3)",
+              <div className="w-[10rem] h-[10rem] md:w-[12.5rem] md:h-[12.5rem] lg:w-[14.5rem] lg:h-[14.5rem] relative z-10 rounded-full overflow-hidden flex items-center justify-center" style={{
+                border: "3px solid #D4A843",
+                boxShadow: "0 0 0 2px #B8860B, 0 0 30px rgba(212, 168, 67, 0.4), 0 0 60px rgba(90, 26, 26, 0.6)",
+                background: "radial-gradient(circle, #4d1515 0%, #3a0a0a 100%)",
               }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo-hero.webp"
                   alt="Bhargavi Teja Collections Logo"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover scale-[1.08] translate-y-[2px]"
                 />
               </div>
             </div>
