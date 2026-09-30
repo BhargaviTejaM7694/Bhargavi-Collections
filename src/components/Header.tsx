@@ -96,7 +96,7 @@ export default function Header() {
                 <img
                   src="/logo.webp"
                   alt="Bhargavi Teja Collections Logo"
-                  className="w-11 h-11 md:w-12 md:h-12 rounded-full object-cover flex-shrink-0"
+                  className="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain flex-shrink-0 bg-burgundy-dark"
                 />
                 <div className="flex flex-col">
                   <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">

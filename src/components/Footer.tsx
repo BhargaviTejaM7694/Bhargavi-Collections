@@ -11,7 +11,8 @@ export default function Footer() {
               <img
                 src="/logo.webp"
                 alt="Bhargavi Teja Collections Logo"
-                className="w-14 h-14 rounded-full object-cover"
+                className="w-14 h-14 rounded-full object-contain"
+                style={{ mixBlendMode: "screen" }}
               />
               <h3 className="font-heading text-2xl text-gold">Bhargavi Teja Collections</h3>
             </div>
