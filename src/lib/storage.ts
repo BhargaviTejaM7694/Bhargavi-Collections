@@ -221,7 +221,7 @@ export async function getBestSellers(limit = 8): Promise<Product[]> {
   }
 
   const productMap = new Map(products.map((p) => [p.id, p]));
-  const sorted = [...salesCount.entries()]
+  const sorted = Array.from(salesCount.entries())
     .sort((a, b) => b[1] - a[1])
     .slice(0, limit)
     .map(([id]) => productMap.get(id))
