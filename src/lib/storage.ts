@@ -210,6 +210,26 @@ function mapProductRow(row: any): Product {
   };
 }
 
+export async function getBestSellers(limit = 8): Promise<Product[]> {
+  const [orders, products] = await Promise.all([getOrders(), getAdminProducts()]);
+
+  const salesCount = new Map<string, number>();
+  for (const order of orders) {
+    for (const item of order.items) {
+      salesCount.set(item.id, (salesCount.get(item.id) || 0) + (item.quantity || 1));
+    }
+  }
+
+  const productMap = new Map(products.map((p) => [p.id, p]));
+  const sorted = [...salesCount.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([id]) => productMap.get(id))
+    .filter((p): p is Product => !!p);
+
+  return sorted;
+}
+
 export async function saveAdminProducts(products: Product[]): Promise<void> {
   for (const p of products) {
     await updateProduct(p);

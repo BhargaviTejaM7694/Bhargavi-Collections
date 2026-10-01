@@ -1,5 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import ShopByCollections from "@/components/ShopByCollections";
+import BestSellers from "@/components/BestSellers";
 import FeaturedProducts from "@/components/FeaturedProducts";
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
       </section>
 
       <ShopByCollections />
+      <BestSellers />
       <FeaturedProducts />
 
       {/* Why Choose Us */}
