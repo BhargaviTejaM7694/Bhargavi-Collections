@@ -39,7 +39,7 @@ export default function Home() {
             Why Choose Bhargavi Teja Collections
           </h2>
           <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
-            Premium <strong>1 gram gold imitation jewellery</strong> from <strong>Hanuman Junction, Vijayawada</strong> — handpicked designs, quality craftsmanship, and <strong>free delivery across Andhra Pradesh</strong>. Traditional elegance at affordable prices.
+            Premium <strong>1 gram gold imitation jewellery</strong> from <strong>Hanuman Junction, Vijayawada</strong> — available for <strong>wholesale, retail &amp; rental</strong>. Handpicked designs, quality craftsmanship, and <strong>free delivery across Andhra Pradesh</strong>. Perfect for weddings, festivals, and everyday wear at affordable prices.
           </p>
         </div>
       </section>

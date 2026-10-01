@@ -115,8 +115,11 @@ export default function HeroSection() {
               Collections
             </h1>
           </div>
-          <p className="text-white font-medium tracking-[0.35em] uppercase text-base md:text-lg mb-6">
+          <p className="text-white font-medium tracking-[0.35em] uppercase text-base md:text-lg mb-4">
             Imitation Jewellery
+          </p>
+          <p className="text-gold/80 font-heading tracking-[0.2em] uppercase text-xs md:text-sm mb-6">
+            Wholesale &bull; Retail &bull; Rental
           </p>
 
           <p className="text-white/60 text-base md:text-lg mb-8 max-w-md mx-auto leading-relaxed">

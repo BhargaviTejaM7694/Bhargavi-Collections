@@ -17,7 +17,7 @@ export default function Footer() {
               <h3 className="font-heading text-2xl text-gold">Bhargavi Teja Collections</h3>
             </div>
             <p className="text-gold-light/70 text-sm leading-relaxed">
-              Your trusted destination for beautiful imitation jewellery. Quality craftsmanship at affordable prices.
+              Your trusted destination for wholesale, retail &amp; rental imitation jewellery. Quality craftsmanship at affordable prices.
             </p>
           </div>
           <div>

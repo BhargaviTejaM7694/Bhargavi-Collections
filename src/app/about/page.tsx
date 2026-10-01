@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "About Us",
-  description: "Learn about Bhargavi Teja Collections from Hanuman Junction, near Vijayawada — your trusted source for premium 1 gram gold imitation jewellery in Andhra Pradesh. Quality craftsmanship at affordable prices.",
+  description: "Learn about Bhargavi Teja Collections from Hanuman Junction, near Vijayawada — your trusted source for wholesale, retail & rental 1 gram gold imitation jewellery in Andhra Pradesh. Quality craftsmanship at affordable prices.",
 };
 
 export default function AboutPage() {
@@ -20,10 +20,10 @@ export default function AboutPage() {
         <div className="bg-cream rounded-lg p-8 mb-8">
           <h2 className="font-heading text-2xl text-burgundy mb-4">Our Story</h2>
           <p className="text-gray-600 leading-relaxed">
-            Bhargavi Teja Collections is your trusted destination for beautiful 1 gram gold imitation jewellery. We believe that every woman deserves to adorn herself with stunning jewellery without breaking the bank.
+            Bhargavi Teja Collections is your trusted destination for beautiful 1 gram gold imitation jewellery. We offer <strong>wholesale, retail, and rental</strong> services — making it easy for everyone to adorn themselves with stunning jewellery without breaking the bank.
           </p>
           <p className="text-gray-600 leading-relaxed mt-4">
-            Our collection features carefully curated pieces — from traditional temple jewellery to contemporary designs — all crafted with attention to detail and quality materials.
+            Our collection features carefully curated pieces — from traditional temple jewellery to contemporary designs — all crafted with attention to detail and quality materials. Whether you need <strong>bulk wholesale jewellery</strong> for your boutique, a single piece for a special occasion, or <strong>rental jewellery for weddings and events</strong>, we have you covered.
           </p>
         </div>
 
@@ -62,7 +62,10 @@ export default function AboutPage() {
           <h2 className="font-heading text-2xl text-burgundy mb-4">Best 1 Gram Gold Imitation Jewellery in Vijayawada &amp; Hanuman Junction</h2>
           <div className="text-gray-600 leading-relaxed space-y-4">
             <p>
-              Welcome to <strong>Bhargavi Teja Collections</strong>, your trusted destination for premium <strong>1 gram gold imitation jewellery</strong> from <strong>Hanuman Junction</strong>, near <strong>Vijayawada, Andhra Pradesh</strong>. We offer an exquisite range of gold-plated jewellery including necklaces, earrings, bangles, chains, rings, pendants, long harams, chokers, bridal sets, and temple jewellery — all at affordable prices.
+              Welcome to <strong>Bhargavi Teja Collections</strong>, your trusted destination for premium <strong>1 gram gold imitation jewellery</strong> from <strong>Hanuman Junction</strong>, near <strong>Vijayawada, Andhra Pradesh</strong>. We offer an exquisite range of gold-plated jewellery including necklaces, earrings, bangles, chains, rings, pendants, long harams, chokers, bridal sets, and temple jewellery — available for <strong>wholesale, retail, and rental</strong> at affordable prices.
+            </p>
+            <p>
+              <strong>Wholesale jewellery</strong> — we supply in bulk to jewellery shops, boutiques, and resellers across Andhra Pradesh and Telangana at the best trade prices. <strong>Retail</strong> — buy individual pieces for personal use with free delivery. <strong>Rental jewellery</strong> — rent stunning bridal sets, necklaces, and complete wedding jewellery collections for your special day at a fraction of the cost.
             </p>
             <p>
               Whether you&apos;re looking for <strong>bridal jewellery in Vijayawada</strong>, <strong>artificial jewellery near Hanuman Junction</strong>, or <strong>fashion jewellery in Andhra Pradesh</strong>, we have the perfect collection for every occasion — weddings, festivals, engagements, and everyday wear.

@@ -3,7 +3,7 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata = {
   title: "Contact Us",
-  description: "Contact Bhargavi Teja Collections, Hanuman Junction near Vijayawada for 1 gram gold imitation jewellery. Call +91 91003 69789. Serving Vijayawada, Gudivada, Machilipatnam, Tenali, Guntur & all of Andhra Pradesh.",
+  description: "Contact Bhargavi Teja Collections, Hanuman Junction near Vijayawada for wholesale, retail & rental 1 gram gold imitation jewellery. Call +91 91003 69789. Serving Vijayawada, Gudivada, Machilipatnam, Tenali, Guntur & all of Andhra Pradesh.",
 };
 
 export default function ContactPage() {
