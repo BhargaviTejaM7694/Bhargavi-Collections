@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata = {
   title: "Contact Us",
@@ -17,8 +18,8 @@ export default function ContactPage() {
       <h1 className="section-title">Contact Us</h1>
 
       <div className="grid md:grid-cols-2 gap-8">
-        <div>
-          <div className="bg-cream rounded-lg p-8">
+        <div className="flex flex-col gap-6">
+          <div className="bg-burgundy/5 rounded-lg p-8">
             <h2 className="font-heading text-2xl text-burgundy mb-6">Get in Touch</h2>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
@@ -71,20 +72,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6">
-          <div className="bg-burgundy/5 rounded-lg p-8">
-            <h2 className="font-heading text-2xl text-burgundy mb-4">How to Order</h2>
-            <ol className="list-decimal list-inside space-y-3 text-gray-600">
-              <li>Browse our collections and pick your favourite piece</li>
-              <li>Click &ldquo;Order Now&rdquo; on the product page</li>
-              <li>Fill in your delivery details</li>
-              <li>Make payment via UPI or bank transfer</li>
-              <li>Upload the payment screenshot</li>
-              <li>Submit — we&apos;ll confirm and dispatch your order</li>
-            </ol>
-          </div>
-          <Link href="/order" className="btn-primary text-center">Place an Order</Link>
-        </div>
+        <ContactForm />
       </div>
     </div>
   );

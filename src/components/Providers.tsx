@@ -2,7 +2,13 @@
 
 import { CartProvider } from "@/context/CartContext";
 import { ReactNode } from "react";
+import ScrollToTop from "./ScrollToTop";
 
 export default function Providers({ children }: { children: ReactNode }) {
-  return <CartProvider>{children}</CartProvider>;
+  return (
+    <CartProvider>
+      <ScrollToTop />
+      {children}
+    </CartProvider>
+  );
 }
