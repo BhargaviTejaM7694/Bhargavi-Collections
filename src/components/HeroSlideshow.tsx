@@ -47,17 +47,17 @@ export default function HeroSlideshow({ images, alt }: { images: string[]; alt: 
       background: "linear-gradient(135deg, #f5d778 0%, #D4A843 30%, #B8860B 60%, #D4A843 100%)",
       boxShadow: "0 0 30px rgba(212, 168, 67, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4)",
     }}>
-      <div className="rounded-xl overflow-hidden relative w-full h-[400px] lg:h-[500px]" style={{ minWidth: "280px" }}>
+      <div className="rounded-xl overflow-hidden relative w-full h-[400px] lg:h-[500px]" style={{ minWidth: "280px", background: "linear-gradient(135deg, #3a0a0a 0%, #4d1515 50%, #3a0a0a 100%)" }}>
         {images.map((src, i) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={src}
             src={src}
             alt={`${alt} ${i + 1}`}
-            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out"
+            className="absolute inset-0 w-full h-full object-contain transition-all duration-1000 ease-in-out"
             style={{
               opacity: i === current ? 1 : 0,
-              transform: i === current ? "scale(1)" : "scale(1.08)",
+              transform: i === current ? "scale(1)" : "scale(1.05)",
             }}
           />
         ))}
