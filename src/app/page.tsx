@@ -9,21 +9,21 @@ export default function Home() {
       <HeroSection />
 
       {/* Wholesale, Retail & Rental highlight */}
-      <section className="py-4" style={{ background: "linear-gradient(90deg, #5A0F1E 0%, #7B1A2C 50%, #5A0F1E 100%)" }}>
+      <section className="py-4 hero-ornate">
         <div className="max-w-5xl mx-auto px-4 flex flex-wrap justify-center items-center gap-4 md:gap-10">
           <div className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-gold-light" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4z" /></svg>
-            <span className="text-gold-light font-heading text-sm md:text-base font-bold tracking-widest uppercase">Wholesale</span>
+            <svg className="w-5 h-5" style={{ color: "#ffd54f" }} fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4z" /></svg>
+            <span className="font-heading text-sm md:text-base font-bold tracking-widest uppercase hero-brand-text" style={{ fontSize: "inherit" }}>Wholesale</span>
           </div>
           <span className="text-gold-light/40 text-xl hidden md:inline">|</span>
           <div className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-gold-light" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" /></svg>
-            <span className="text-gold-light font-heading text-sm md:text-base font-bold tracking-widest uppercase">Retail</span>
+            <svg className="w-5 h-5" style={{ color: "#ffd54f" }} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" /></svg>
+            <span className="font-heading text-sm md:text-base font-bold tracking-widest uppercase hero-brand-text" style={{ fontSize: "inherit" }}>Retail</span>
           </div>
           <span className="text-gold-light/40 text-xl hidden md:inline">|</span>
           <div className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-gold-light" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h3.05a2.5 2.5 0 014.9 0H19a1 1 0 001-1v-2a4 4 0 00-4-4h-2V5a1 1 0 00-1-1H3zm10 3h1a2 2 0 012 2v1h-3V7z" /></svg>
-            <span className="text-gold-light font-heading text-sm md:text-base font-bold tracking-widest uppercase">Rental</span>
+            <svg className="w-5 h-5" style={{ color: "#ffd54f" }} fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h3.05a2.5 2.5 0 014.9 0H19a1 1 0 001-1v-2a4 4 0 00-4-4h-2V5a1 1 0 00-1-1H3zm10 3h1a2 2 0 012 2v1h-3V7z" /></svg>
+            <span className="font-heading text-sm md:text-base font-bold tracking-widest uppercase hero-brand-text" style={{ fontSize: "inherit" }}>Rental</span>
           </div>
         </div>
       </section>
