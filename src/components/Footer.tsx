@@ -14,14 +14,14 @@ export default function Footer() {
                 className="w-14 h-14 rounded-full object-contain"
                 style={{ mixBlendMode: "screen" }}
               />
-              <h3 className="font-heading text-2xl text-gold">Bhargavi Teja Collections</h3>
+              <h3 className="font-heading text-2xl text-gold-light font-bold">Bhargavi Teja Collections</h3>
             </div>
             <p className="text-gold-light/70 text-sm leading-relaxed">
               Your trusted destination for wholesale, retail &amp; rental imitation jewellery. Quality craftsmanship at affordable prices.
             </p>
           </div>
           <div>
-            <h4 className="font-heading text-lg text-gold mb-3">Quick Links</h4>
+            <h4 className="font-heading text-lg text-gold-light font-bold mb-3">Quick Links</h4>
             <nav className="flex flex-col gap-2">
               {[
                 { href: "/", label: "Home" },
@@ -37,7 +37,7 @@ export default function Footer() {
             </nav>
           </div>
           <div>
-            <h4 className="font-heading text-lg text-gold mb-3">Policies</h4>
+            <h4 className="font-heading text-lg text-gold-light font-bold mb-3">Policies</h4>
             <nav className="flex flex-col gap-2">
               {[
                 { href: "/customer-support", label: "Customer Support" },
@@ -53,7 +53,7 @@ export default function Footer() {
             </nav>
           </div>
           <div>
-            <h4 className="font-heading text-lg text-gold mb-3">Contact Us</h4>
+            <h4 className="font-heading text-lg text-gold-light font-bold mb-3">Contact Us</h4>
             <div className="flex flex-col gap-2 text-sm text-gold-light/70">
               <a href="tel:+919100369789" className="hover:text-gold transition-colors">+91 91003 69789</a>
               <a href="mailto:bhargavitejacollections@gmail.com" className="hover:text-gold transition-colors">bhargavitejacollections@gmail.com</a>

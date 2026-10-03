@@ -20,7 +20,7 @@ export default function ContactPage() {
       <div className="grid md:grid-cols-2 gap-8">
         <div className="flex flex-col gap-6">
           <div className="bg-burgundy/5 rounded-lg p-8">
-            <h2 className="font-heading text-2xl text-burgundy mb-6">Get in Touch</h2>
+            <h2 className="font-heading text-2xl text-burgundy mb-6 font-bold">Get in Touch</h2>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-burgundy/10 rounded-full flex items-center justify-center flex-shrink-0">

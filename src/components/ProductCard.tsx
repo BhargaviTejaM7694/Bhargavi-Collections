@@ -62,10 +62,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
         <div className="p-4">
-          <h3 className="font-medium text-gray-800 group-hover:text-burgundy transition-colors line-clamp-2 mb-1">
+          <h3 className="font-semibold text-gray-800 group-hover:text-burgundy transition-colors line-clamp-2 mb-1">
             {product.name}
           </h3>
-          <p className="text-gold font-bold text-lg">
+          <p className="text-gold-dark font-bold text-lg">
             ₹{product.price.toLocaleString("en-IN")}
           </p>
         </div>

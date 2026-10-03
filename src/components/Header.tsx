@@ -102,7 +102,7 @@ export default function Header() {
                   <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">
                     Bhargavi Teja
                   </span>
-                  <span className="font-heading text-[10px] md:text-xs text-burgundy/60 tracking-[0.25em] uppercase leading-tight">
+                  <span className="font-heading text-[10px] md:text-xs text-burgundy tracking-[0.25em] uppercase leading-tight font-semibold">
                     Collections
                   </span>
                 </div>

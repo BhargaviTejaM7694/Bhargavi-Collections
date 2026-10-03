@@ -25,7 +25,7 @@ export default function ShopByCollections() {
               href={`/collections/${category.id}`}
               className="flex flex-col items-center gap-3 flex-shrink-0 group"
             >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-[3px] border-burgundy/20 group-hover:border-gold transition-all duration-300 group-hover:shadow-lg group-hover:scale-105">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-[3px] border-gold/30 group-hover:border-gold-light transition-all duration-300 group-hover:shadow-lg group-hover:shadow-gold/20 group-hover:scale-105">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={category.image}

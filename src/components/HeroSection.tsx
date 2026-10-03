@@ -65,18 +65,24 @@ export default function HeroSection() {
             Welcome to
           </p>
           <div className="mb-4 overflow-visible">
-            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl hero-brand-text font-bold leading-[1.4] pb-2">
+            <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl hero-brand-text font-extrabold leading-[1.3] pb-2">
               Bhargavi Teja
             </h1>
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl hero-brand-text font-bold leading-[1.4] pb-3">
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl hero-brand-text font-extrabold leading-[1.3] pb-3">
               Collections
             </h1>
           </div>
           <p className="text-white font-medium tracking-[0.35em] uppercase text-base md:text-lg mb-4">
             Imitation Jewellery
           </p>
-          <p className="text-gold/80 font-heading tracking-[0.2em] uppercase text-xs md:text-sm mb-6">
-            Wholesale &bull; Retail &bull; Rental
+          <p className="font-heading tracking-[0.25em] uppercase text-sm md:text-base lg:text-lg mb-6 font-bold" style={{
+            background: "linear-gradient(90deg, #ffd54f 0%, #f5c518 40%, #ffe082 60%, #ffd54f 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            filter: "drop-shadow(0 0 8px rgba(255, 213, 79, 0.4))",
+          }}>
+            WHOLESALE &bull; RETAIL &bull; RENTAL
           </p>
 
           <p className="text-white/60 text-base md:text-lg mb-8 max-w-md mx-auto leading-relaxed">
