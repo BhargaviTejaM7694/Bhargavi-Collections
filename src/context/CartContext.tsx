@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import { Product } from "@/types";
 
 export interface CartItem {
@@ -22,10 +22,46 @@ interface CartContextType {
   totalPrice: number;
 }
 
+const STORAGE_KEY = "btc_cart";
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+function loadCart(): CartItem[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {}
+  return [];
+}
+
+function saveCart(items: CartItem[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch {}
+}
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const loaded = useRef(false);
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const stored = loadCart();
+    if (stored.length > 0) {
+      setItems(stored);
+    }
+    loaded.current = true;
+  }, []);
+
+  // Save cart to localStorage on every change (skip until load is done)
+  useEffect(() => {
+    if (loaded.current) {
+      saveCart(items);
+    }
+  }, [items]);
 
   const addItem = (product: Product, quantity: number = 1) => {
     setItems((prev) => {

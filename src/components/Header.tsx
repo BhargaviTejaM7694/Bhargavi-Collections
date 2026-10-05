@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/order-status", label: "Track Order" },
 ];
 
 export default function Header() {
@@ -161,6 +162,12 @@ export default function Header() {
                   className="text-gray-700 hover:text-burgundy font-medium tracking-wide uppercase text-sm transition-colors duration-200"
                 >
                   Contact
+                </Link>
+                <Link
+                  href="/order-status"
+                  className="text-gray-700 hover:text-burgundy font-medium tracking-wide uppercase text-sm transition-colors duration-200"
+                >
+                  Track Order
                 </Link>
               </nav>
             </div>

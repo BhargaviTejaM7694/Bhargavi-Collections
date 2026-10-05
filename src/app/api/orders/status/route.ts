@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/composio-email";
+import { verifySessionToken } from "@/lib/session";
 
 const statusMessages: Record<string, { subject: string; heading: string; message: string; color: string }> = {
   ordered: {
@@ -29,6 +30,12 @@ const statusMessages: Record<string, { subject: string; heading: string; message
 };
 
 export async function POST(request: NextRequest) {
+  // Require admin authentication
+  const session = request.cookies.get("admin_session")?.value;
+  if (!session || !verifySessionToken(session)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { customerName, customerEmail, orderId, items, totalAmount, newStatus } = body;

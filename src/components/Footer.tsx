@@ -27,6 +27,7 @@ export default function Footer() {
                 { href: "/", label: "Home" },
                 { href: "/collections/necklaces", label: "Shop" },
                 { href: "/order", label: "Place Order" },
+                { href: "/order-status", label: "Track Order" },
                 { href: "/about", label: "About Us" },
                 { href: "/contact", label: "Contact" },
               ].map((link) => (
