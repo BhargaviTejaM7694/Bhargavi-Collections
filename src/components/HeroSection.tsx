@@ -30,7 +30,7 @@ export default function HeroSection() {
         <div className="text-center flex-1">
           {/* Logo with golden mandala flower background */}
           <div className="mb-2 flex justify-center">
-            <div className="relative flex items-center justify-center w-80 h-80 md:w-[27rem] md:h-[27rem] lg:w-[30rem] lg:h-[30rem]">
+            <div className="relative flex items-center justify-center w-64 h-64 md:w-[22rem] md:h-[22rem] lg:w-[25rem] lg:h-[25rem]">
               {/* Mandala flower image - blend with hero bg */}
               <div className="absolute inset-0" style={{
                 WebkitMaskImage: "radial-gradient(circle, black 30%, transparent 70%)",
@@ -46,7 +46,7 @@ export default function HeroSection() {
               </div>
 
               {/* Logo in the center - fills the mandala circle */}
-              <div className="w-[10rem] h-[10rem] md:w-[12.5rem] md:h-[12.5rem] lg:w-[14.5rem] lg:h-[14.5rem] relative z-10 rounded-full overflow-hidden flex items-center justify-center" style={{
+              <div className="w-[8rem] h-[8rem] md:w-[10rem] md:h-[10rem] lg:w-[12rem] lg:h-[12rem] relative z-10 rounded-full overflow-hidden flex items-center justify-center" style={{
                 border: "3px solid #D4A843",
                 boxShadow: "0 0 0 2px #B8860B, 0 0 30px rgba(212, 168, 67, 0.4), 0 0 60px rgba(90, 26, 26, 0.6)",
                 background: "radial-gradient(circle, #4d1515 0%, #3a0a0a 100%)",
