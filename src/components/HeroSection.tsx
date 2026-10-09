@@ -2,7 +2,7 @@ import Link from "next/link";
 import HeroSlideshow from "./HeroSlideshow";
 
 const leftImages = ["/1.jpg", "/2.jpg", "/3.jpg", "/4.jpg", "/5.jpg"];
-const rightImages = ["/6.png", "/7.jpg", "/8.png", "/9.jpg", "/10.jpg"];
+const rightImages = ["/6.png", "/7.png", "/8.png", "/9.jpg", "/10.jpg"];
 
 export default function HeroSection() {
   return (
