@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     const htmlBody = `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;">
         <div style="background:#1a3a2a;padding:20px;text-align:center;">
-          <h1 style="color:#D4A843;margin:0;font-size:22px;">Bhargavi Teja Collections</h1>
+          <h1 style="color:#D4A843;margin:0;font-size:22px;">BhargaviTeja Collections</h1>
         </div>
 
         <div style="padding:24px;">
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
         </div>
 
         <div style="background:#f0f5f1;padding:16px;text-align:center;color:#666;font-size:12px;">
-          <p style="margin:0;">Thank you for shopping with Bhargavi Teja Collections</p>
+          <p style="margin:0;">Thank you for shopping with BhargaviTeja Collections</p>
         </div>
       </div>
     `;
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;">
           <div style="background:#1a3a2a;padding:20px;text-align:center;">
             <h1 style="color:#D4A843;margin:0;font-size:22px;">Order Status Updated</h1>
-            <p style="color:#f0f5f1;margin:8px 0 0;">Bhargavi Teja Collections</p>
+            <p style="color:#f0f5f1;margin:8px 0 0;">BhargaviTeja Collections</p>
           </div>
           <div style="padding:24px;">
             <div style="text-align:center;margin-bottom:24px;">
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
             </table>
           </div>
           <div style="background:#f0f5f1;padding:16px;text-align:center;color:#666;font-size:12px;">
-            <p style="margin:0;">Automated notification from Bhargavi Teja Collections</p>
+            <p style="margin:0;">Automated notification from BhargaviTeja Collections</p>
           </div>
         </div>
       `;

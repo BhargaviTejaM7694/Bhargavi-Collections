@@ -4,7 +4,7 @@ import OrderForm from "@/components/OrderForm";
 
 export const metadata = {
   title: "Place Order",
-  description: "Order 1 gram gold imitation jewellery online from Bhargavi Teja Collections, Hanuman Junction near Vijayawada. Free delivery across Andhra Pradesh. Necklaces, earrings, bangles & more.",
+  description: "Order 1 gram gold imitation jewellery online from BhargaviTeja Collections, Hanuman Junction near Vijayawada. Free delivery across Andhra Pradesh. Necklaces, earrings, bangles & more.",
 };
 
 export default function OrderPage() {

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Shipping Policy",
-  description: "Shipping Policy for Bhargavi Teja Collections - Free delivery across Andhra Pradesh on all orders.",
+  description: "Shipping Policy for BhargaviTeja Collections - Free delivery across Andhra Pradesh on all orders.",
 };
 
 export default function ShippingPolicyPage() {

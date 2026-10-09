@@ -38,7 +38,7 @@ export default function MobileMenu({ isOpen, onClose, links, categories = [] }: 
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <span className="font-heading text-xl text-gold font-bold block">Bhargavi Teja</span>
+              <span className="font-heading text-xl text-gold font-bold block">BhargaviTeja</span>
               <span className="font-heading text-sm text-gold-light/80 tracking-[0.2em] uppercase">Collections</span>
             </div>
             <button onClick={onClose} aria-label="Close menu" className="p-1 text-gold-light hover:text-gold transition-colors">

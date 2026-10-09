@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Refund Policy",
-  description: "Refund and Return Policy for Bhargavi Teja Collections - 1 gram gold imitation jewellery.",
+  description: "Refund and Return Policy for BhargaviTeja Collections - 1 gram gold imitation jewellery.",
 };
 
 export default function RefundPolicyPage() {

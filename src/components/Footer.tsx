@@ -10,11 +10,11 @@ export default function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo.webp"
-                alt="Bhargavi Teja Collections Logo"
+                alt="BhargaviTeja Collections Logo"
                 className="w-14 h-14 rounded-full object-contain"
                 style={{ mixBlendMode: "screen" }}
               />
-              <h3 className="font-heading text-2xl text-gold-light font-bold">Bhargavi Teja Collections</h3>
+              <h3 className="font-heading text-2xl text-gold-light font-bold">BhargaviTeja Collections</h3>
             </div>
             <p className="text-gold-light/70 text-sm leading-relaxed">
               Your trusted destination for wholesale, retail &amp; rental imitation jewellery. Quality craftsmanship at affordable prices.
@@ -63,7 +63,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gold/20 mt-8 pt-6 text-sm text-gold-light/60 space-y-3">
-          <p className="text-center">&copy; {new Date().getFullYear()} Bhargavi Teja Collections. All rights reserved.</p>
+          <p className="text-center">&copy; {new Date().getFullYear()} BhargaviTeja Collections. All rights reserved.</p>
           <div className="text-center text-xs text-gold-light/50">
             <p>Designed by <span className="text-gold-light/70 font-medium">AI Wealth Creators</span></p>
             <p>

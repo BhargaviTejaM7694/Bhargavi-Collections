@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Customer Support",
-  description: "Customer Support for Bhargavi Teja Collections - We are here to help with your orders, returns, and queries.",
+  description: "Customer Support for BhargaviTeja Collections - We are here to help with your orders, returns, and queries.",
 };
 
 export default function CustomerSupportPage() {
@@ -19,7 +19,7 @@ export default function CustomerSupportPage() {
       <div className="prose prose-gray max-w-none space-y-8">
         <div className="bg-cream rounded-lg p-8">
           <h2 className="font-heading text-2xl text-burgundy mb-4">How Can We Help You?</h2>
-          <p className="text-gray-600 leading-relaxed">At Bhargavi Teja Collections, your satisfaction is our priority. Our dedicated support team is available to assist you with any questions, concerns, or issues.</p>
+          <p className="text-gray-600 leading-relaxed">At BhargaviTeja Collections, your satisfaction is our priority. Our dedicated support team is available to assist you with any questions, concerns, or issues.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">

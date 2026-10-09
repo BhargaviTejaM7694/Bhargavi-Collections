@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;">
         <div style="background:#3a0a0a;padding:20px;text-align:center;">
           <h1 style="color:#D4A843;margin:0;font-size:22px;">New Customer Query</h1>
-          <p style="color:#f0f5f1;margin:8px 0 0;font-size:14px;">Bhargavi Teja Collections</p>
+          <p style="color:#f0f5f1;margin:8px 0 0;font-size:14px;">BhargaviTeja Collections</p>
         </div>
         <div style="padding:24px;">
           <table style="width:100%;margin-bottom:20px;">
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     if (process.env.COMPOSIO_API_KEY && process.env.COMPOSIO_USER_ID) {
       await sendEmail({
         to: ownerEmail,
-        subject: `Customer Query from ${name} | Bhargavi Teja Collections`,
+        subject: `Customer Query from ${name} | BhargaviTeja Collections`,
         htmlBody,
       });
       return NextResponse.json({ success: true, emailSent: true });

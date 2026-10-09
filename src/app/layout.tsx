@@ -20,11 +20,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Bhargavi Teja Collections | 1 Gram Gold Imitation Jewellery in Vijayawada & Hanuman Junction",
-    template: "%s | Bhargavi Teja Collections",
+    default: "BhargaviTeja Collections | 1 Gram Gold Imitation Jewellery in Vijayawada & Hanuman Junction",
+    template: "%s | BhargaviTeja Collections",
   },
   description:
-    "Shop premium 1 gram gold imitation jewellery online at Bhargavi Teja Collections, Hanuman Junction near Vijayawada. Wholesale, retail & rental jewellery — necklaces, earrings, bangles, chains, rings, pendants, long harams, chokers & bridal sets. Free delivery across Andhra Pradesh. Affordable gold-plated jewellery in Krishna district.",
+    "Shop premium 1 gram gold imitation jewellery online at BhargaviTeja Collections, Hanuman Junction near Vijayawada. Wholesale, retail & rental jewellery — necklaces, earrings, bangles, chains, rings, pendants, long harams, chokers & bridal sets. Free delivery across Andhra Pradesh. Affordable gold-plated jewellery in Krishna district.",
   keywords: [
     "1 gram gold jewellery",
     "imitation jewellery Vijayawada",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     "imitation jewellery near me",
     "jewellery shop Hanuman Junction",
     "jewellery shop near Vijayawada",
-    "Bhargavi Teja Collections",
+    "BhargaviTeja Collections",
     "affordable jewellery Vijayawada",
     "one gram gold jewellery online",
     "Krishna district jewellery",
@@ -64,9 +64,9 @@ export const metadata: Metadata = {
     "wedding jewellery Vijayawada",
     "temple jewellery Vijayawada",
   ],
-  authors: [{ name: "Bhargavi Teja Collections" }],
-  creator: "Bhargavi Teja Collections",
-  publisher: "Bhargavi Teja Collections",
+  authors: [{ name: "BhargaviTeja Collections" }],
+  creator: "BhargaviTeja Collections",
+  publisher: "BhargaviTeja Collections",
   robots: {
     index: true,
     follow: true,
@@ -81,22 +81,22 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "Bhargavi Teja Collections",
-    title: "Bhargavi Teja Collections | Wholesale, Retail & Rental Imitation Jewellery in Vijayawada",
+    siteName: "BhargaviTeja Collections",
+    title: "BhargaviTeja Collections | Wholesale, Retail & Rental Imitation Jewellery in Vijayawada",
     description:
-      "Shop premium 1 gram gold imitation jewellery at Bhargavi Teja Collections, Hanuman Junction near Vijayawada. Wholesale, retail & rental — necklaces, earrings, bangles, bridal sets & more. Free delivery across Andhra Pradesh.",
+      "Shop premium 1 gram gold imitation jewellery at BhargaviTeja Collections, Hanuman Junction near Vijayawada. Wholesale, retail & rental — necklaces, earrings, bangles, bridal sets & more. Free delivery across Andhra Pradesh.",
     images: [
       {
         url: "/logo.webp",
         width: 512,
         height: 512,
-        alt: "Bhargavi Teja Collections Logo",
+        alt: "BhargaviTeja Collections Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bhargavi Teja Collections | Wholesale, Retail & Rental Jewellery Vijayawada",
+    title: "BhargaviTeja Collections | Wholesale, Retail & Rental Jewellery Vijayawada",
     description:
       "Premium 1 gram gold imitation jewellery from Hanuman Junction, near Vijayawada. Wholesale, retail & rental — necklaces, earrings, bangles & bridal sets at affordable prices.",
     images: ["/logo.webp"],
@@ -121,7 +121,7 @@ const jsonLd = {
     {
       "@type": "LocalBusiness",
       "@id": "#business",
-      name: "Bhargavi Teja Collections",
+      name: "BhargaviTeja Collections",
       description:
         "Premium 1 gram gold imitation jewellery shop in Hanuman Junction, near Vijayawada. Wholesale, retail & rental — necklaces, earrings, bangles, chains, rings, pendants, long harams, chokers, bridal sets and temple jewellery at affordable prices with free delivery across Andhra Pradesh.",
       image: "/logo.webp",
@@ -161,7 +161,7 @@ const jsonLd = {
     {
       "@type": "WebSite",
       "@id": "#website",
-      name: "Bhargavi Teja Collections",
+      name: "BhargaviTeja Collections",
       description: "Wholesale, Retail & Rental 1 Gram Gold Imitation Jewellery Online Store in Vijayawada & Hanuman Junction, Andhra Pradesh",
       publisher: { "@id": "#business" },
     },

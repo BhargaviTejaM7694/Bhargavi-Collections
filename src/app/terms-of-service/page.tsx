@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Terms of Service",
-  description: "Terms of Service for Bhargavi Teja Collections - Read our terms and conditions for using our website and services.",
+  description: "Terms of Service for BhargaviTeja Collections - Read our terms and conditions for using our website and services.",
 };
 
 export default function TermsOfServicePage() {
@@ -20,7 +20,7 @@ export default function TermsOfServicePage() {
       <div className="prose prose-gray max-w-none space-y-6">
         <section>
           <h2 className="font-heading text-xl text-burgundy mb-3">1. Acceptance of Terms</h2>
-          <p className="text-gray-600 leading-relaxed">By accessing and using the Bhargavi Teja Collections website, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website.</p>
+          <p className="text-gray-600 leading-relaxed">By accessing and using the BhargaviTeja Collections website, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website.</p>
         </section>
 
         <section>
@@ -56,12 +56,12 @@ export default function TermsOfServicePage() {
 
         <section>
           <h2 className="font-heading text-xl text-burgundy mb-3">5. Intellectual Property</h2>
-          <p className="text-gray-600 leading-relaxed">All content on this website, including images, logos, text, and design, is the property of Bhargavi Teja Collections and is protected by copyright laws. Unauthorized use is prohibited.</p>
+          <p className="text-gray-600 leading-relaxed">All content on this website, including images, logos, text, and design, is the property of BhargaviTeja Collections and is protected by copyright laws. Unauthorized use is prohibited.</p>
         </section>
 
         <section>
           <h2 className="font-heading text-xl text-burgundy mb-3">6. Limitation of Liability</h2>
-          <p className="text-gray-600 leading-relaxed">Bhargavi Teja Collections shall not be liable for any indirect, incidental, or consequential damages arising from the use of our website or products. Our maximum liability is limited to the amount paid for the product.</p>
+          <p className="text-gray-600 leading-relaxed">BhargaviTeja Collections shall not be liable for any indirect, incidental, or consequential damages arising from the use of our website or products. Our maximum liability is limited to the amount paid for the product.</p>
         </section>
 
         <section>

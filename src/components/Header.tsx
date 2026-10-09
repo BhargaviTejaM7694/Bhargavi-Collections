@@ -96,12 +96,12 @@ export default function Header() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo.webp"
-                  alt="Bhargavi Teja Collections Logo"
+                  alt="BhargaviTeja Collections Logo"
                   className="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain flex-shrink-0 bg-burgundy-dark"
                 />
                 <div className="flex flex-col">
                   <span className="font-heading text-xl md:text-2xl header-brand-text font-bold leading-tight">
-                    Bhargavi Teja
+                    BhargaviTeja
                   </span>
                   <span className="font-heading text-[10px] md:text-xs text-burgundy tracking-[0.25em] uppercase leading-tight font-semibold">
                     Collections
