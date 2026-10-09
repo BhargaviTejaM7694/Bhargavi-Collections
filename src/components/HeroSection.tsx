@@ -28,6 +28,16 @@ export default function HeroSection() {
 
         {/* Center: Text content */}
         <div className="text-center flex-1">
+          {/* Brand logo */}
+          <div className="mb-4 flex justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero-brand.webp"
+              alt="BhargaviTeja Collections — Retail, Rental, Wholesale"
+              className="w-72 md:w-[26rem] lg:w-[32rem] h-auto object-contain drop-shadow-2xl"
+            />
+          </div>
+
           {/* Logo with golden mandala flower background */}
           <div className="mb-2 flex justify-center">
             <div className="relative flex items-center justify-center w-64 h-64 md:w-[22rem] md:h-[22rem] lg:w-[25rem] lg:h-[25rem]">
@@ -59,16 +69,6 @@ export default function HeroSection() {
                 />
               </div>
             </div>
-          </div>
-
-          {/* Brand logo */}
-          <div className="mb-6 flex justify-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/hero-brand.webp"
-              alt="BhargaviTeja Collections — Retail, Rental, Wholesale"
-              className="w-72 md:w-[26rem] lg:w-[32rem] h-auto object-contain drop-shadow-2xl"
-            />
           </div>
           <p className="text-white font-medium tracking-[0.35em] uppercase text-base md:text-lg mb-4">
             Imitation Jewellery
