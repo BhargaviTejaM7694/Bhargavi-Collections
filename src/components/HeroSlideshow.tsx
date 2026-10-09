@@ -47,7 +47,7 @@ export default function HeroSlideshow({ images, alt }: { images: string[]; alt: 
       background: "linear-gradient(135deg, #f5d778 0%, #D4A843 30%, #B8860B 60%, #D4A843 100%)",
       boxShadow: "0 0 30px rgba(212, 168, 67, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4)",
     }}>
-      <div className="rounded-xl overflow-hidden relative" style={{ width: "280px", aspectRatio: "4 / 5" }}>
+      <div className="rounded-xl overflow-hidden relative" style={{ width: "280px", aspectRatio: "3 / 4" }}>
         {images.map((src, i) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img
