@@ -20,9 +20,9 @@ export default function HeroSection() {
       {/* Subtle decorative accent line */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 py-6 md:py-10 lg:py-12 flex flex-col md:flex-row items-center gap-6 md:gap-8 relative z-10">
-        {/* Left: Jewellery slideshow with ornate gold frame */}
-        <div className="hidden md:flex flex-1 justify-center">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-10 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-8 relative z-10">
+        {/* Left: Jewellery slideshow - hidden below lg, shown on lg+ */}
+        <div className="hidden lg:flex flex-1 justify-center">
           <HeroSlideshow images={leftImages} alt="BhargaviTeja Collections jewellery" />
         </div>
 
@@ -40,7 +40,7 @@ export default function HeroSection() {
 
           {/* Logo with golden mandala flower background */}
           <div className="mb-2 flex justify-center">
-            <div className="relative flex items-center justify-center w-64 h-64 md:w-[22rem] md:h-[22rem] lg:w-[25rem] lg:h-[25rem]">
+            <div className="relative flex items-center justify-center w-52 h-52 md:w-[22rem] md:h-[22rem] lg:w-[25rem] lg:h-[25rem]">
               {/* Mandala flower image - blend with hero bg */}
               <div className="absolute inset-0" style={{
                 WebkitMaskImage: "radial-gradient(circle, black 30%, transparent 70%)",
@@ -56,7 +56,7 @@ export default function HeroSection() {
               </div>
 
               {/* Logo in the center - fills the mandala circle */}
-              <div className="w-[8rem] h-[8rem] md:w-[10rem] md:h-[10rem] lg:w-[12rem] lg:h-[12rem] relative z-10 rounded-full overflow-hidden flex items-center justify-center" style={{
+              <div className="w-[6.5rem] h-[6.5rem] md:w-[10rem] md:h-[10rem] lg:w-[12rem] lg:h-[12rem] relative z-10 rounded-full overflow-hidden flex items-center justify-center" style={{
                 border: "3px solid #D4A843",
                 boxShadow: "0 0 0 2px #B8860B, 0 0 30px rgba(212, 168, 67, 0.4), 0 0 60px rgba(90, 26, 26, 0.6)",
                 background: "radial-gradient(circle, #4d1515 0%, #3a0a0a 100%)",
@@ -70,11 +70,18 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-          <p className="text-white font-medium tracking-[0.35em] uppercase text-base md:text-lg mb-4">
+
+          {/* Mobile/Tablet: Both slideshows side by side */}
+          <div className="flex lg:hidden justify-center gap-4 mb-6">
+            <HeroSlideshow images={leftImages} alt="BhargaviTeja Collections jewellery" mobile />
+            <HeroSlideshow images={rightImages} alt="BhargaviTeja Collections jewellery" mobile />
+          </div>
+
+          <p className="text-white font-medium tracking-[0.35em] uppercase text-sm md:text-lg mb-3 md:mb-4">
             Imitation Jewellery
           </p>
 
-          <p className="text-white/60 text-base md:text-lg mb-8 max-w-md mx-auto leading-relaxed">
+          <p className="text-white/60 text-sm md:text-lg mb-6 md:mb-8 max-w-md mx-auto leading-relaxed">
             Exquisite designs crafted with love.
             Traditional elegance at affordable prices.
           </p>
@@ -95,8 +102,8 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right: Jewellery slideshow with ornate gold frame */}
-        <div className="hidden md:flex flex-1 justify-center">
+        {/* Right: Jewellery slideshow - hidden below lg, shown on lg+ */}
+        <div className="hidden lg:flex flex-1 justify-center">
           <HeroSlideshow images={rightImages} alt="BhargaviTeja Collections jewellery" />
         </div>
       </div>

@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="hero-ornate text-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-3 mb-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -57,7 +57,7 @@ export default function Footer() {
             <h4 className="font-heading text-lg text-gold-light font-bold mb-3">Contact Us</h4>
             <div className="flex flex-col gap-2 text-sm text-gold-light/70">
               <a href="tel:+919100369789" className="hover:text-gold transition-colors">+91 91003 69789</a>
-              <a href="mailto:bhargavitejacollections@gmail.com" className="hover:text-gold transition-colors">bhargavitejacollections@gmail.com</a>
+              <a href="mailto:bhargavitejacollections@gmail.com" className="hover:text-gold transition-colors break-all">bhargavitejacollections@gmail.com</a>
               <a href="https://wa.me/919100369789" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">WhatsApp: +91 91003 69789</a>
             </div>
           </div>
