@@ -52,8 +52,34 @@ function ProductsManagement() {
   const catFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    getAdminProducts().then(setProductsList);
-    getAdminCategories().then(setCategoriesList);
+    async function load() {
+      const [products, categories] = await Promise.all([
+        getAdminProducts(),
+        getAdminCategories(),
+      ]);
+
+      const hasBase64 = products.some(p => p.image?.startsWith("data:")) ||
+                        categories.some(c => c.image?.startsWith("data:"));
+
+      if (hasBase64) {
+        try {
+          await fetch("/api/admin/migrate-images", { method: "POST" });
+          const [freshProducts, freshCategories] = await Promise.all([
+            getAdminProducts(),
+            getAdminCategories(),
+          ]);
+          setProductsList(freshProducts);
+          setCategoriesList(freshCategories);
+          return;
+        } catch {
+          // fall through to show what we have
+        }
+      }
+
+      setProductsList(products);
+      setCategoriesList(categories);
+    }
+    load();
   }, []);
 
   const filtered = productsList.filter((p) => {
@@ -82,13 +108,21 @@ function ProductsManagement() {
     setShowModal(true);
   };
 
+  const uploadImage = async (file: File): Promise<string> => {
+    const form = new FormData();
+    form.append("file", file);
+    const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+    if (!res.ok) throw new Error("Upload failed");
+    const data = await res.json();
+    return data.url;
+  };
+
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setImageFile(file);
     const dataUrl = await fileToDataUrl(file);
     setImagePreview(dataUrl);
-    setFormData((prev) => ({ ...prev, image: dataUrl }));
   };
 
   const handleCatImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,20 +133,38 @@ function ProductsManagement() {
     setCatImagePreview(dataUrl);
   };
 
+  const [saving, setSaving] = useState(false);
+
   const handleSave = async () => {
-    if (!formData.name || !formData.category || !formData.image || formData.price <= 0) return;
+    if (!formData.name || !formData.category || formData.price <= 0) return;
+    if (!imageFile && !formData.image && !editingProduct?.image) return;
 
-    const inStock = formData.quantity > 0;
+    setSaving(true);
+    try {
+      let imageUrl = formData.image;
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      } else if (editingProduct) {
+        imageUrl = editingProduct.image;
+      }
 
-    if (editingProduct) {
-      const updated: Product = { ...editingProduct, ...formData, inStock };
-      await updateProduct(updated);
-    } else {
-      const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, inStock };
-      await addProduct(newProduct);
+      const inStock = formData.quantity > 0;
+
+      if (editingProduct) {
+        const updated: Product = { ...editingProduct, ...formData, image: imageUrl, inStock };
+        await updateProduct(updated);
+      } else {
+        const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, image: imageUrl, inStock };
+        await addProduct(newProduct);
+      }
+      setProductsList(await getAdminProducts());
+      setShowModal(false);
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("Failed to save product. Please try again.");
+    } finally {
+      setSaving(false);
     }
-    setProductsList(await getAdminProducts());
-    setShowModal(false);
   };
 
   const handleDelete = async (id: string) => {
@@ -123,23 +175,31 @@ function ProductsManagement() {
 
   const handleAddCategory = async () => {
     if (!catName.trim()) return;
-    let image = catImagePreview;
-    if (!image && catImageFile) {
-      image = await fileToDataUrl(catImageFile);
+    setSaving(true);
+    try {
+      let image = "";
+      if (catImageFile) {
+        image = await uploadImage(catImageFile);
+      }
+      const newCat: Category = {
+        id: generateSlug(catName),
+        name: catName.trim(),
+        image,
+        description: catDescription.trim(),
+      };
+      await addCategory(newCat);
+      setCategoriesList(await getAdminCategories());
+      setCatName("");
+      setCatDescription("");
+      setCatImageFile(null);
+      setCatImagePreview("");
+      setShowCategoryModal(false);
+    } catch (err) {
+      console.error("Category save error:", err);
+      alert("Failed to add category. Please try again.");
+    } finally {
+      setSaving(false);
     }
-    const newCat: Category = {
-      id: generateSlug(catName),
-      name: catName.trim(),
-      image: image || "",
-      description: catDescription.trim(),
-    };
-    await addCategory(newCat);
-    setCategoriesList(await getAdminCategories());
-    setCatName("");
-    setCatDescription("");
-    setCatImageFile(null);
-    setCatImagePreview("");
-    setShowCategoryModal(false);
   };
 
   const handleDeleteCategory = async (catId: string) => {
@@ -307,8 +367,8 @@ function ProductsManagement() {
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
               <button onClick={() => setShowModal(false)} className="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-              <button onClick={handleSave} className="px-5 py-2.5 bg-burgundy text-white font-medium rounded-lg hover:bg-burgundy-dark transition-colors">
-                {editingProduct ? "Update Product" : "Add Product"}
+              <button onClick={handleSave} disabled={saving} className={`px-5 py-2.5 font-medium rounded-lg transition-colors ${saving ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-burgundy text-white hover:bg-burgundy-dark"}`}>
+                {saving ? "Saving..." : editingProduct ? "Update Product" : "Add Product"}
               </button>
             </div>
           </div>
@@ -380,8 +440,8 @@ function ProductsManagement() {
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
               <button onClick={() => setShowCategoryModal(false)} className="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg hover:bg-gray-50 transition-colors">Close</button>
-              <button onClick={handleAddCategory} disabled={!catName.trim()} className={`px-5 py-2.5 font-medium rounded-lg transition-colors ${catName.trim() ? "bg-burgundy text-white hover:bg-burgundy-dark" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}>
-                Add Category
+              <button onClick={handleAddCategory} disabled={!catName.trim() || saving} className={`px-5 py-2.5 font-medium rounded-lg transition-colors ${!catName.trim() || saving ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-burgundy text-white hover:bg-burgundy-dark"}`}>
+                {saving ? "Saving..." : "Add Category"}
               </button>
             </div>
           </div>
