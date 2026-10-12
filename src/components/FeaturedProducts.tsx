@@ -1,25 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getAdminProducts, getAdminCategories } from "@/lib/storage";
+import { useProductData } from "@/context/ProductDataContext";
 import ProductCard from "./ProductCard";
-import type { Product } from "@/types";
 
 export default function FeaturedProducts() {
-  const [featured, setFeatured] = useState<Product[]>([]);
-  const [firstCategoryId, setFirstCategoryId] = useState("necklaces");
+  const { products, categories, loading } = useProductData();
 
-  useEffect(() => {
-    getAdminProducts().then((all) => {
-      setFeatured(all.filter((p) => p.inStock).slice(0, 8));
-    });
-    getAdminCategories().then((cats) => {
-      if (cats.length > 0) setFirstCategoryId(cats[0].id);
-    });
-  }, []);
+  const featured = products.filter((p) => p.inStock).slice(0, 8);
+  const firstCategoryId = categories.length > 0 ? categories[0].id : "necklaces";
 
-  if (featured.length === 0) return null;
+  if (loading || featured.length === 0) return null;
 
   return (
     <section className="py-12 md:py-16 bg-cream/50">

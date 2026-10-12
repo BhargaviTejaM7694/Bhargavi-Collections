@@ -3,35 +3,48 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getAdminCategories, getAdminProducts } from "@/lib/storage";
+import { useProductData } from "@/context/ProductDataContext";
+import { getProductsByCategory } from "@/lib/storage";
 import ProductCard from "@/components/ProductCard";
-import type { Category, Product } from "@/types";
+import type { Product } from "@/types";
 
 export default function CategoryPage() {
   const params = useParams();
   const categoryId = params.category as string;
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const { categories, loading: catsLoading } = useProductData();
+  const [categoryProducts, setCategoryProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([getAdminCategories(), getAdminProducts()]).then(([cats, prods]) => {
-      setCategories(cats);
-      setProducts(prods);
+    setLoading(true);
+    getProductsByCategory(categoryId).then((prods) => {
+      setCategoryProducts(prods);
       setLoading(false);
     });
-  }, []);
+  }, [categoryId]);
 
-  if (loading) {
+  const category = categories.find((c) => c.id === categoryId);
+
+  if (loading || catsLoading) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-burgundy border-t-transparent rounded-full" />
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="h-6 w-40 bg-gray-200 animate-pulse rounded mb-6" />
+        <div className="h-10 w-64 bg-gray-200 animate-pulse rounded mx-auto mb-4" />
+        <div className="h-4 w-96 max-w-full bg-gray-200 animate-pulse rounded mx-auto mb-8" />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-lg overflow-hidden shadow-sm">
+              <div className="aspect-square bg-gray-200 animate-pulse" />
+              <div className="p-4 space-y-2">
+                <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4" />
+                <div className="h-5 bg-gray-200 animate-pulse rounded w-1/3" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
-
-  const category = categories.find((c) => c.id === categoryId);
-  const categoryProducts = products.filter((p) => p.category === categoryId);
 
   if (!category) {
     return (

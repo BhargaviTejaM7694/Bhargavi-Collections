@@ -59,6 +59,37 @@ export async function getAdminProducts(): Promise<Product[]> {
   return (data || []).map(mapProductRow);
 }
 
+
+export async function getProductsByCategory(categoryId: string): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", categoryId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching products by category:", error);
+    return [];
+  }
+
+  return (data || []).map(mapProductRow);
+}
+
+export async function getProductById(productId: string): Promise<Product | null> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", productId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+
+  return data ? mapProductRow(data) : null;
+}
+
 export async function addProduct(product: Product): Promise<void> {
   const { error } = await supabase.from("products").insert({
     id: product.id,

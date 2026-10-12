@@ -3,32 +3,31 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { getAdminProducts, getAdminCategories } from "@/lib/storage";
+import { useProductData } from "@/context/ProductDataContext";
+import { getProductById } from "@/lib/storage";
 import { useCart } from "@/context/CartContext";
 import OptimizedImage from "@/components/OptimizedImage";
-import type { Product, Category } from "@/types";
+import type { Product } from "@/types";
 
 export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
   const productId = params.id as string;
+  const { categories } = useProductData();
   const [product, setProduct] = useState<Product | null>(null);
-  const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
 
   useEffect(() => {
-    Promise.all([getAdminProducts(), getAdminCategories()]).then(([products, categories]) => {
-      const found = products.find((p) => p.id === productId) || null;
-      setProduct(found);
-      if (found) {
-        setCategory(categories.find((c) => c.id === found.category) || null);
-      }
+    setLoading(true);
+    getProductById(productId).then((p) => {
+      setProduct(p);
       setLoading(false);
     });
   }, [productId]);
 
+  const category = product ? categories.find((c) => c.id === product.category) || null : null;
   const maxQuantity = product?.quantity ?? 10;
 
   const handleDecrement = () => {
@@ -54,8 +53,17 @@ export default function ProductPage() {
 
   if (loading) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-burgundy border-t-transparent rounded-full" />
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="h-4 w-48 bg-gray-200 animate-pulse rounded mb-6" />
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+          <div className="aspect-square bg-gray-200 animate-pulse rounded-lg" />
+          <div className="flex flex-col justify-center space-y-4">
+            <div className="h-8 bg-gray-200 animate-pulse rounded w-3/4" />
+            <div className="h-8 bg-gray-200 animate-pulse rounded w-1/3" />
+            <div className="h-4 bg-gray-200 animate-pulse rounded w-1/4" />
+            <div className="h-20 bg-gray-200 animate-pulse rounded" />
+          </div>
+        </div>
       </div>
     );
   }
