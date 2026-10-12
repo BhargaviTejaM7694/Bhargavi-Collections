@@ -7,6 +7,7 @@ import {
   getAdminProducts, addProduct, updateProduct, deleteProduct,
   getAdminCategories, addCategory, deleteCategory, fileToDataUrl,
 } from "@/lib/storage";
+import OptimizedImage from "@/components/OptimizedImage";
 import type { Product, Category } from "@/types";
 
 function generateSlug(name: string): string {
@@ -260,8 +261,7 @@ function ProductsManagement() {
                     <tr key={product.id} className="hover:bg-gray-50">
                       <td className="px-6 py-3">
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 relative">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                          <OptimizedImage src={product.image} alt={product.name} fill className="object-cover" sizes="48px" />
                         </div>
                       </td>
                       <td className="px-6 py-3 font-medium text-gray-800 max-w-[200px] truncate">{product.name}</td>

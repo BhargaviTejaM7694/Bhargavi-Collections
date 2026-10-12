@@ -26,8 +26,8 @@ export default function FeaturedProducts() {
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="section-title">Featured Products</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {featured.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {featured.map((product, i) => (
+            <ProductCard key={product.id} product={product} priority={i < 4} />
           ))}
         </div>
         <div className="text-center mt-8">

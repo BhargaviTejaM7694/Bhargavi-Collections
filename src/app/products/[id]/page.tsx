@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { getAdminProducts, getAdminCategories } from "@/lib/storage";
 import { useCart } from "@/context/CartContext";
+import OptimizedImage from "@/components/OptimizedImage";
 import type { Product, Category } from "@/types";
 
 export default function ProductPage() {
@@ -90,12 +91,15 @@ export default function ProductPage() {
       </nav>
 
       <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-        <div className="aspect-square bg-cream rounded-lg overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="aspect-square bg-cream rounded-lg overflow-hidden relative">
+          <OptimizedImage
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-contain"
+            fill
+            className="object-contain"
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
+            quality={90}
           />
         </div>
 

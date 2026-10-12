@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { Product } from "@/types";
 import { useCart } from "@/context/CartContext";
+import OptimizedImage from "./OptimizedImage";
 
 interface ProductCardProps {
   product: Product;
+  priority?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, priority = false }: ProductCardProps) {
   const { toggleItem, isSelected } = useCart();
   const selected = isSelected(product.id);
 
@@ -22,7 +24,6 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="relative group">
-      {/* Checkbox overlay */}
       {product.inStock && (
         <button
           onClick={handleCheckbox}
@@ -44,19 +45,21 @@ export default function ProductCard({ product }: ProductCardProps) {
         className="block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
       >
         <div className="aspect-square bg-cream overflow-hidden relative">
-          <img
+          <OptimizedImage
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
+            fill
+            className="object-contain group-hover:scale-105 transition-transform duration-300"
+            priority={priority}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           {!product.inStock && (
-            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-10">
               Sold Out
             </div>
           )}
           {selected && (
-            <div className="absolute top-2 right-2 bg-burgundy text-white text-xs px-2 py-1 rounded">
+            <div className="absolute top-2 right-2 bg-burgundy text-white text-xs px-2 py-1 rounded z-10">
               Selected
             </div>
           )}
