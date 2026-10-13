@@ -34,23 +34,34 @@ const ornamentSvg = (
 
 export default function HeroSlideshow({ images, alt, mobile }: { images: string[]; alt: string; mobile?: boolean }) {
   const [current, setCurrent] = useState(0);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const img = new window.Image();
+    img.onload = () => setReady(true);
+    img.src = images[0];
+  }, [images]);
+
+  useEffect(() => {
+    if (!ready) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
     }, 3000);
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [images.length, ready]);
 
   const frameWidth = mobile ? "clamp(140px, 22vw, 220px)" : "280px";
 
   return (
-    <div className={`relative ${mobile ? "rounded-xl p-[4px]" : "rounded-2xl p-[6px] lg:p-2"}`} style={{
-      background: "linear-gradient(135deg, #f5d778 0%, #D4A843 30%, #B8860B 60%, #D4A843 100%)",
-      boxShadow: mobile
-        ? "0 0 15px rgba(212, 168, 67, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3)"
-        : "0 0 30px rgba(212, 168, 67, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4)",
-    }}>
+    <div
+      className={`relative transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"} ${mobile ? "rounded-xl p-[4px]" : "rounded-2xl p-[6px] lg:p-2"}`}
+      style={{
+        background: "linear-gradient(135deg, #f5d778 0%, #D4A843 30%, #B8860B 60%, #D4A843 100%)",
+        boxShadow: mobile
+          ? "0 0 15px rgba(212, 168, 67, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3)"
+          : "0 0 30px rgba(212, 168, 67, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4)",
+      }}
+    >
       <div className="rounded-xl overflow-hidden relative" style={{ width: frameWidth, aspectRatio: "3 / 4" }}>
         {images.map((src, i) => (
           // eslint-disable-next-line @next/next/no-img-element
