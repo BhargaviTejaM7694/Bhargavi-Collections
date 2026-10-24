@@ -32,7 +32,7 @@ export default function ProductPage() {
   const maxQuantity = product?.quantity ?? 10;
 
   const allVariantImages = product?.variants && product.variants.length > 0
-    ? [{ color: "Default", colorCode: "#000000", image: product.image, quantity: product.quantity }, ...product.variants]
+    ? product.variants
     : [];
 
   const activeVariant = allVariantImages.length > 0 ? allVariantImages[selectedVariant] : null;
