@@ -29,7 +29,6 @@ export default function ProductPage() {
   }, [productId]);
 
   const category = product ? categories.find((c) => c.id === product.category) || null : null;
-  const maxQuantity = product?.quantity ?? 10;
 
   const allVariantImages = product?.variants && product.variants.length > 0
     ? product.variants
@@ -37,6 +36,7 @@ export default function ProductPage() {
 
   const activeVariant = allVariantImages.length > 0 ? allVariantImages[selectedVariant] : null;
   const displayQuantity = activeVariant?.quantity ?? product?.quantity;
+  const maxQuantity = displayQuantity ?? 10;
   const isVariantAvailable = activeVariant ? (activeVariant.quantity ?? 0) > 0 : product?.inStock ?? false;
 
   const handleDecrement = () => {
@@ -126,7 +126,7 @@ export default function ProductPage() {
               {allVariantImages.map((v, i) => (
                 <button
                   key={i}
-                  onClick={() => setSelectedVariant(i)}
+                  onClick={() => { setSelectedVariant(i); setQuantity(1); }}
                   className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${selectedVariant === i ? "border-burgundy ring-2 ring-burgundy/30" : "border-gray-200 hover:border-gray-400"}`}
                   title={v.color}
                 >
@@ -164,7 +164,7 @@ export default function ProductPage() {
                 {allVariantImages.map((v, i) => (
                   <button
                     key={i}
-                    onClick={() => setSelectedVariant(i)}
+                    onClick={() => { setSelectedVariant(i); setQuantity(1); }}
                     className={`w-9 h-9 rounded-full border-2 transition-all ${selectedVariant === i ? "border-burgundy ring-2 ring-burgundy/20 scale-110" : "border-gray-300 hover:scale-105"}`}
                     style={{ backgroundColor: v.colorCode }}
                     title={v.color}
