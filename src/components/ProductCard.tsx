@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Product } from "@/types";
 import { useCart } from "@/context/CartContext";
@@ -13,6 +14,19 @@ interface ProductCardProps {
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
   const { toggleItem, isSelected } = useCart();
   const selected = isSelected(product.id);
+  const [activeImage, setActiveImage] = useState(0);
+
+  const allImages = product.variants && product.variants.length > 0
+    ? [product.image, ...product.variants.map(v => v.image)]
+    : [product.image];
+
+  useEffect(() => {
+    if (allImages.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveImage(prev => (prev + 1) % allImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [allImages.length]);
 
   const handleCheckbox = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,14 +59,21 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         className="block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
       >
         <div className="aspect-square bg-cream overflow-hidden relative">
-          <OptimizedImage
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-contain group-hover:scale-105 transition-transform duration-300"
-            priority={priority}
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          />
+          {allImages.map((img, idx) => (
+            <div
+              key={idx}
+              className={`absolute inset-0 transition-opacity duration-700 ${idx === activeImage ? "opacity-100" : "opacity-0"}`}
+            >
+              <OptimizedImage
+                src={img}
+                alt={idx === 0 ? product.name : `${product.name} - ${product.variants?.[idx - 1]?.color ?? ""}`}
+                fill
+                className="object-contain group-hover:scale-105 transition-transform duration-300"
+                priority={priority && idx === 0}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              />
+            </div>
+          ))}
           {!product.inStock && (
             <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-10">
               Sold Out
@@ -71,6 +92,26 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           <p className="text-gold-dark font-bold text-lg">
             ₹{product.price.toLocaleString("en-IN")}
           </p>
+          {product.variants && product.variants.length > 0 && (
+            <div className="flex gap-1.5 mt-2">
+              <span
+                className="w-4 h-4 rounded-full border border-gray-300"
+                style={{ backgroundColor: "#000000" }}
+                title="Default"
+              />
+              {product.variants.slice(0, 4).map((v, i) => (
+                <span
+                  key={i}
+                  className="w-4 h-4 rounded-full border border-gray-300"
+                  style={{ backgroundColor: v.colorCode }}
+                  title={v.color}
+                />
+              ))}
+              {product.variants.length > 4 && (
+                <span className="text-xs text-gray-400 self-center">+{product.variants.length - 4}</span>
+              )}
+            </div>
+          )}
         </div>
       </Link>
     </div>

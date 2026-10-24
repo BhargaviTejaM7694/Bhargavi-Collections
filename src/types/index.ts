@@ -5,6 +5,13 @@ export interface Category {
   description: string;
 }
 
+export interface ProductVariant {
+  color: string;
+  colorCode: string;
+  image: string;
+  quantity?: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -15,6 +22,7 @@ export interface Product {
   description: string;
   inStock: boolean;
   quantity?: number;
+  variants?: ProductVariant[];
 }
 
 export interface OrderFormData {

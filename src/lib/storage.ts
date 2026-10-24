@@ -101,6 +101,7 @@ export async function addProduct(product: Product): Promise<void> {
     description: product.description,
     in_stock: (product.quantity ?? 0) > 0,
     quantity: product.quantity ?? 0,
+    variants: product.variants || null,
   });
 
   if (error) console.error("Error adding product:", error);
@@ -118,6 +119,7 @@ export async function updateProduct(updated: Product): Promise<void> {
       description: updated.description,
       in_stock: (updated.quantity ?? 0) > 0,
       quantity: updated.quantity ?? 0,
+      variants: updated.variants || null,
     })
     .eq("id", updated.id);
 
@@ -238,6 +240,7 @@ function mapProductRow(row: any): Product {
     description: row.description,
     inStock: row.in_stock,
     quantity: row.quantity ?? 0,
+    variants: row.variants || undefined,
   };
 }
 

@@ -8,7 +8,7 @@ import {
   getAdminCategories, addCategory, deleteCategory, fileToDataUrl,
 } from "@/lib/storage";
 import OptimizedImage from "@/components/OptimizedImage";
-import type { Product, Category } from "@/types";
+import type { Product, Category, ProductVariant } from "@/types";
 
 function generateSlug(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -49,8 +49,10 @@ function ProductsManagement() {
   const [catDescription, setCatDescription] = useState("");
   const [catImageFile, setCatImageFile] = useState<File | null>(null);
   const [catImagePreview, setCatImagePreview] = useState("");
+  const [variants, setVariants] = useState<{ color: string; colorCode: string; image: string; preview: string; quantity: number }[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const catFileInputRef = useRef<HTMLInputElement>(null);
+  const variantFileRefs = useRef<Map<number, HTMLInputElement>>(new Map());
 
   useEffect(() => {
     async function load() {
@@ -94,6 +96,7 @@ function ProductsManagement() {
     setFormData(emptyProduct);
     setImageFile(null);
     setImagePreview("");
+    setVariants([]);
     setShowModal(true);
   };
 
@@ -106,6 +109,7 @@ function ProductsManagement() {
     });
     setImageFile(null);
     setImagePreview(product.image);
+    setVariants(product.variants?.map(v => ({ ...v, preview: v.image, quantity: v.quantity ?? 0 })) || []);
     setShowModal(true);
   };
 
@@ -135,6 +139,7 @@ function ProductsManagement() {
   };
 
   const [saving, setSaving] = useState(false);
+  const [variantUploading, setVariantUploading] = useState(0);
 
   const handleSave = async () => {
     if (!formData.name || !formData.category || formData.price <= 0) return;
@@ -151,11 +156,15 @@ function ProductsManagement() {
 
       const inStock = formData.quantity > 0;
 
+      const finalVariants: ProductVariant[] = variants
+        .filter(v => v.color && v.image)
+        .map(v => ({ color: v.color, colorCode: v.colorCode, image: v.image, quantity: v.quantity ?? 0 }));
+
       if (editingProduct) {
-        const updated: Product = { ...editingProduct, ...formData, image: imageUrl, inStock };
+        const updated: Product = { ...editingProduct, ...formData, image: imageUrl, inStock, variants: finalVariants.length > 0 ? finalVariants : undefined };
         await updateProduct(updated);
       } else {
-        const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, image: imageUrl, inStock };
+        const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, image: imageUrl, inStock, variants: finalVariants.length > 0 ? finalVariants : undefined };
         await addProduct(newProduct);
       }
       setProductsList(await getAdminProducts());
@@ -264,7 +273,17 @@ function ProductsManagement() {
                           <OptimizedImage src={product.image} alt={product.name} fill className="object-cover" sizes="48px" />
                         </div>
                       </td>
-                      <td className="px-6 py-3 font-medium text-gray-800 max-w-[200px] truncate">{product.name}</td>
+                      <td className="px-6 py-3">
+                        <span className="font-medium text-gray-800 block max-w-[200px] truncate">{product.name}</span>
+                        {product.variants && product.variants.length > 0 && (
+                          <div className="flex gap-1 mt-1">
+                            <span className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: "#000000" }} title="Default" />
+                            {product.variants.map((v, vi) => (
+                              <span key={vi} className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: v.colorCode }} title={v.color} />
+                            ))}
+                          </div>
+                        )}
+                      </td>
                       <td className="px-6 py-3 text-gray-600 capitalize">{product.category}</td>
                       <td className="px-6 py-3 text-gold font-semibold">₹{product.price.toLocaleString("en-IN")}</td>
                       <td className="px-6 py-3 text-gray-700 font-medium">{product.quantity ?? 0}</td>
@@ -308,7 +327,7 @@ function ProductsManagement() {
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
               <h2 className="font-heading text-xl font-bold text-gray-900">{editingProduct ? "Edit Product" : "Add New Product"}</h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
+              <button onClick={() => { if (variants.length > 0 && !confirm("You have unsaved variant changes. Close without saving?")) return; setShowModal(false); }} className="text-gray-400 hover:text-gray-600"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
             <div className="p-6 space-y-4">
               <div>
@@ -359,6 +378,107 @@ function ProductsManagement() {
                 </div>
                 <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
               </div>
+              {/* Color Variants */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">Color Variants</label>
+                  <button
+                    type="button"
+                    onClick={() => setVariants([...variants, { color: "", colorCode: "#000000", image: "", preview: "", quantity: 0 }])}
+                    className="text-xs text-burgundy hover:text-burgundy-dark font-medium flex items-center gap-1"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    Add Variant
+                  </button>
+                </div>
+                {variants.length === 0 && (
+                  <p className="text-xs text-gray-400">No variants — product has a single style. Add variants for different bead colors, finishes, etc.</p>
+                )}
+                <div className="space-y-3">
+                  {variants.map((v, i) => (
+                    <div key={i} className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
+                      <div className="flex-1 space-y-2">
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={v.color}
+                            onChange={(e) => { const u = [...variants]; u[i] = { ...u[i], color: e.target.value }; setVariants(u); }}
+                            className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-burgundy/30"
+                            placeholder="Color name (e.g. Black, Green)"
+                          />
+                          <input
+                            type="color"
+                            value={v.colorCode}
+                            onChange={(e) => { const u = [...variants]; u[i] = { ...u[i], colorCode: e.target.value }; setVariants(u); }}
+                            className="w-10 h-8 border border-gray-300 rounded cursor-pointer"
+                            title="Pick color"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="number"
+                            min={0}
+                            value={v.quantity ?? ""}
+                            onChange={(e) => { const u = [...variants]; u[i] = { ...u[i], quantity: Number(e.target.value) }; setVariants(u); }}
+                            className="w-full px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-burgundy/30"
+                            placeholder="No. of pieces available"
+                          />
+                        </div>
+                        <div
+                          onClick={() => variantFileRefs.current.get(i)?.click()}
+                          className="border border-dashed border-gray-300 rounded p-2 text-center cursor-pointer hover:border-burgundy/50 transition-colors"
+                        >
+                          {(v.preview || v.image) ? (
+                            <div className="flex items-center gap-2">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={v.preview || v.image} alt="Variant" className="w-10 h-10 rounded object-cover" />
+                              <span className="text-xs text-gray-500">{v.preview && !v.image ? "Uploading..." : "Click to change"}</span>
+                            </div>
+                          ) : (
+                            <span className="text-xs text-gray-400">Click to upload variant image</span>
+                          )}
+                        </div>
+                        <input
+                          ref={(el) => { if (el) variantFileRefs.current.set(i, el); }}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const dataUrl = await fileToDataUrl(file);
+                            const u = [...variants];
+                            u[i] = { ...u[i], preview: dataUrl, image: "" };
+                            setVariants(u);
+                            setVariantUploading(c => c + 1);
+                            try {
+                              const url = await uploadImage(file);
+                              setVariants(prev => {
+                                const updated = [...prev];
+                                if (updated[i]) updated[i] = { ...updated[i], image: url };
+                                return updated;
+                              });
+                            } catch {
+                              alert("Failed to upload variant image. Please try again.");
+                            } finally {
+                              setVariantUploading(c => c - 1);
+                            }
+                          }}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setVariants(variants.filter((_, j) => j !== i))}
+                        className="text-red-400 hover:text-red-600 p-1 mt-1"
+                        title="Remove variant"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} rows={3} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-burgundy/30 focus:border-burgundy resize-none" placeholder="Product description..." />
@@ -366,9 +486,9 @@ function ProductsManagement() {
               <p className="text-xs text-gray-500">Stock status is set automatically — products with 0 pieces are marked &ldquo;Out of Stock&rdquo;.</p>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
-              <button onClick={() => setShowModal(false)} className="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-              <button onClick={handleSave} disabled={saving} className={`px-5 py-2.5 font-medium rounded-lg transition-colors ${saving ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-burgundy text-white hover:bg-burgundy-dark"}`}>
-                {saving ? "Saving..." : editingProduct ? "Update Product" : "Add Product"}
+              <button onClick={() => { if (variants.length > 0 && !confirm("You have unsaved variant changes. Close without saving?")) return; setShowModal(false); }} className="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
+              <button onClick={handleSave} disabled={saving || variantUploading > 0} className={`px-5 py-2.5 font-medium rounded-lg transition-colors ${saving || variantUploading > 0 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-burgundy text-white hover:bg-burgundy-dark"}`}>
+                {variantUploading > 0 ? "Uploading images..." : saving ? "Saving..." : editingProduct ? "Update Product" : "Add Product"}
               </button>
             </div>
           </div>
