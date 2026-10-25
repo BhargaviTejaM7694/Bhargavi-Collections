@@ -277,6 +277,7 @@ function ProductsManagement() {
                         <span className="font-medium text-gray-800 block max-w-[200px] truncate">{product.name}</span>
                         {product.variants && product.variants.length > 0 && (
                           <div className="flex gap-1 mt-1">
+                            <span className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: "#000000" }} title="Black" />
                             {product.variants.map((v, vi) => (
                               <span key={vi} className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: v.colorCode }} title={v.color} />
                             ))}

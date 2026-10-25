@@ -94,7 +94,12 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           </p>
           {product.variants && product.variants.length > 0 && (
             <div className="flex gap-1.5 mt-2">
-              {product.variants.slice(0, 5).map((v, i) => (
+              <span
+                className="w-4 h-4 rounded-full border border-gray-300"
+                style={{ backgroundColor: "#000000" }}
+                title="Black"
+              />
+              {product.variants.slice(0, 4).map((v, i) => (
                 <span
                   key={i}
                   className="w-4 h-4 rounded-full border border-gray-300"
@@ -102,8 +107,8 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                   title={v.color}
                 />
               ))}
-              {product.variants.length > 5 && (
-                <span className="text-xs text-gray-400 self-center">+{product.variants.length - 5}</span>
+              {product.variants.length > 4 && (
+                <span className="text-xs text-gray-400 self-center">+{product.variants.length - 4}</span>
               )}
             </div>
           )}
