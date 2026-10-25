@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { supabase } from "@/lib/supabase";
 import { sendEmail } from "@/lib/composio-email";
 
 export async function POST(request: NextRequest) {
@@ -36,12 +36,23 @@ export async function POST(request: NextRequest) {
 
     let screenshotUrl = "";
     if (paymentScreenshot) {
-      const blob = await put(
-        `payments/payment-${customerName.replace(/\s+/g, "-")}-${Date.now()}.${paymentScreenshot.name.split(".").pop() || "png"}`,
-        paymentScreenshot,
-        { access: "public" }
-      );
-      screenshotUrl = blob.url;
+      const fileName = `payments/payment-${customerName.replace(/\s+/g, "-")}-${Date.now()}.${paymentScreenshot.name.split(".").pop() || "png"}`;
+      const arrayBuffer = await paymentScreenshot.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const { error: uploadError } = await supabase.storage
+        .from("products")
+        .upload(fileName, buffer, {
+          contentType: paymentScreenshot.type,
+          upsert: true,
+        });
+
+      if (!uploadError) {
+        const { data: urlData } = supabase.storage
+          .from("products")
+          .getPublicUrl(fileName);
+        screenshotUrl = urlData.publicUrl;
+      }
     }
 
     const totalQuantity = items.reduce((sum, item) => sum + (item.quantity || 1), 0);

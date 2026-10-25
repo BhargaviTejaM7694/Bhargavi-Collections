@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 import { verifySessionToken } from "@/lib/session";
 import { supabase } from "@/lib/supabase";
 
@@ -38,16 +37,21 @@ export async function POST(request: NextRequest) {
         const base64Data = match[2];
         const ext = mimeType.split("/")[1] || "png";
         const buffer = Buffer.from(base64Data, "base64");
+        const fileName = `${product.id}.${ext}`;
 
-        const blob = await put(
-          `products/${product.id}.${ext}`,
-          buffer,
-          { access: "public", contentType: mimeType }
-        );
+        const { error: uploadError } = await supabase.storage
+          .from("products")
+          .upload(fileName, buffer, { contentType: mimeType, upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = supabase.storage
+          .from("products")
+          .getPublicUrl(fileName);
 
         const { error: updateError } = await supabase
           .from("products")
-          .update({ image: blob.url })
+          .update({ image: urlData.publicUrl })
           .eq("id", product.id);
 
         if (updateError) throw updateError;
@@ -57,7 +61,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Also migrate category images
     const { data: categories, error: catError } = await supabase
       .from("categories")
       .select("id, image");
@@ -74,16 +77,21 @@ export async function POST(request: NextRequest) {
           const base64Data = match[2];
           const ext = mimeType.split("/")[1] || "png";
           const buffer = Buffer.from(base64Data, "base64");
+          const fileName = `categories/${cat.id}.${ext}`;
 
-          const blob = await put(
-            `categories/${cat.id}.${ext}`,
-            buffer,
-            { access: "public", contentType: mimeType }
-          );
+          const { error: uploadError } = await supabase.storage
+            .from("products")
+            .upload(fileName, buffer, { contentType: mimeType, upsert: true });
+
+          if (uploadError) throw uploadError;
+
+          const { data: urlData } = supabase.storage
+            .from("products")
+            .getPublicUrl(fileName);
 
           await supabase
             .from("categories")
-            .update({ image: blob.url })
+            .update({ image: urlData.publicUrl })
             .eq("id", cat.id);
 
           migrated++;
