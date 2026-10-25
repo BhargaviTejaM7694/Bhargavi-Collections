@@ -31,7 +31,7 @@ export default function ProductPage() {
   const category = product ? categories.find((c) => c.id === product.category) || null : null;
 
   const allVariantImages = product?.variants && product.variants.length > 0
-    ? [{ color: "Black", colorCode: "#000000", image: product.image, quantity: product.quantity }, ...product.variants]
+    ? [{ color: product.defaultColor || "Black", colorCode: product.defaultColorCode || "#000000", image: product.image, quantity: product.quantity }, ...product.variants]
     : [];
 
   const activeVariant = allVariantImages.length > 0 ? allVariantImages[selectedVariant] : null;

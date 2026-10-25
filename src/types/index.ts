@@ -22,6 +22,8 @@ export interface Product {
   description: string;
   inStock: boolean;
   quantity?: number;
+  defaultColor?: string;
+  defaultColorCode?: string;
   variants?: ProductVariant[];
 }
 

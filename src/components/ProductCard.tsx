@@ -96,8 +96,8 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             <div className="flex gap-1.5 mt-2">
               <span
                 className="w-4 h-4 rounded-full border border-gray-300"
-                style={{ backgroundColor: "#000000" }}
-                title="Black"
+                style={{ backgroundColor: product.defaultColorCode || "#000000" }}
+                title={product.defaultColor || "Black"}
               />
               {product.variants.slice(0, 4).map((v, i) => (
                 <span

@@ -101,6 +101,8 @@ export async function addProduct(product: Product): Promise<void> {
     description: product.description,
     in_stock: (product.quantity ?? 0) > 0,
     quantity: product.quantity ?? 0,
+    default_color: product.defaultColor || "Black",
+    default_color_code: product.defaultColorCode || "#000000",
     variants: product.variants || null,
   });
 
@@ -119,6 +121,8 @@ export async function updateProduct(updated: Product): Promise<void> {
       description: updated.description,
       in_stock: (updated.quantity ?? 0) > 0,
       quantity: updated.quantity ?? 0,
+      default_color: updated.defaultColor || "Black",
+      default_color_code: updated.defaultColorCode || "#000000",
       variants: updated.variants || null,
     })
     .eq("id", updated.id);
@@ -240,6 +244,8 @@ function mapProductRow(row: any): Product {
     description: row.description,
     inStock: row.in_stock,
     quantity: row.quantity ?? 0,
+    defaultColor: row.default_color || "Black",
+    defaultColorCode: row.default_color_code || "#000000",
     variants: row.variants || undefined,
   };
 }

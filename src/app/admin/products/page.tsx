@@ -21,6 +21,8 @@ interface ProductFormData {
   image: string;
   description: string;
   quantity: number;
+  defaultColor: string;
+  defaultColorCode: string;
 }
 
 const emptyProduct: ProductFormData = {
@@ -30,6 +32,8 @@ const emptyProduct: ProductFormData = {
   image: "",
   description: "",
   quantity: 0,
+  defaultColor: "Black",
+  defaultColorCode: "#000000",
 };
 
 function ProductsManagement() {
@@ -106,6 +110,8 @@ function ProductsManagement() {
       name: product.name, price: product.price, category: product.category,
       image: product.image, description: product.description,
       quantity: product.quantity ?? 0,
+      defaultColor: product.defaultColor || "Black",
+      defaultColorCode: product.defaultColorCode || "#000000",
     });
     setImageFile(null);
     setImagePreview(product.image);
@@ -161,10 +167,10 @@ function ProductsManagement() {
         .map(v => ({ color: v.color, colorCode: v.colorCode, image: v.image, quantity: v.quantity ?? 0 }));
 
       if (editingProduct) {
-        const updated: Product = { ...editingProduct, ...formData, image: imageUrl, inStock, variants: finalVariants.length > 0 ? finalVariants : undefined };
+        const updated: Product = { ...editingProduct, ...formData, image: imageUrl, inStock, defaultColor: formData.defaultColor, defaultColorCode: formData.defaultColorCode, variants: finalVariants.length > 0 ? finalVariants : undefined };
         await updateProduct(updated);
       } else {
-        const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, image: imageUrl, inStock, variants: finalVariants.length > 0 ? finalVariants : undefined };
+        const newProduct: Product = { id: generateSlug(formData.name) + "-" + Date.now(), ...formData, image: imageUrl, inStock, defaultColor: formData.defaultColor, defaultColorCode: formData.defaultColorCode, variants: finalVariants.length > 0 ? finalVariants : undefined };
         await addProduct(newProduct);
       }
       setProductsList(await getAdminProducts());
@@ -277,7 +283,7 @@ function ProductsManagement() {
                         <span className="font-medium text-gray-800 block max-w-[200px] truncate">{product.name}</span>
                         {product.variants && product.variants.length > 0 && (
                           <div className="flex gap-1 mt-1">
-                            <span className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: "#000000" }} title="Black" />
+                            <span className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: product.defaultColorCode || "#000000" }} title={product.defaultColor || "Black"} />
                             {product.variants.map((v, vi) => (
                               <span key={vi} className="w-3.5 h-3.5 rounded-full border border-gray-300 inline-block" style={{ backgroundColor: v.colorCode }} title={v.color} />
                             ))}
@@ -327,7 +333,7 @@ function ProductsManagement() {
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
               <h2 className="font-heading text-xl font-bold text-gray-900">{editingProduct ? "Edit Product" : "Add New Product"}</h2>
-              <button onClick={() => { if (variants.length > 0 && !confirm("You have unsaved variant changes. Close without saving?")) return; setShowModal(false); }} className="text-gray-400 hover:text-gray-600"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
+              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
             <div className="p-6 space-y-4">
               <div>
@@ -377,6 +383,31 @@ function ProductsManagement() {
                   )}
                 </div>
                 <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+              </div>
+              {/* Default Colour */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Colour</label>
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <input
+                    type="text"
+                    value={formData.defaultColor}
+                    onChange={(e) => setFormData({ ...formData, defaultColor: e.target.value })}
+                    className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-burgundy/30"
+                    placeholder="Color name (e.g. Black)"
+                  />
+                  <input
+                    type="color"
+                    value={formData.defaultColorCode}
+                    onChange={(e) => setFormData({ ...formData, defaultColorCode: e.target.value })}
+                    className="w-10 h-8 border border-gray-300 rounded cursor-pointer"
+                    title="Pick color"
+                  />
+                  <span
+                    className="w-8 h-8 rounded-full border border-gray-300 flex-shrink-0"
+                    style={{ backgroundColor: formData.defaultColorCode }}
+                    title={formData.defaultColor}
+                  />
+                </div>
               </div>
               {/* Color Variants */}
               <div>
@@ -486,7 +517,7 @@ function ProductsManagement() {
               <p className="text-xs text-gray-500">Stock status is set automatically — products with 0 pieces are marked &ldquo;Out of Stock&rdquo;.</p>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
-              <button onClick={() => { if (variants.length > 0 && !confirm("You have unsaved variant changes. Close without saving?")) return; setShowModal(false); }} className="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
+              <button onClick={() => setShowModal(false)} className="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
               <button onClick={handleSave} disabled={saving || variantUploading > 0} className={`px-5 py-2.5 font-medium rounded-lg transition-colors ${saving || variantUploading > 0 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-burgundy text-white hover:bg-burgundy-dark"}`}>
                 {variantUploading > 0 ? "Uploading images..." : saving ? "Saving..." : editingProduct ? "Update Product" : "Add Product"}
               </button>
