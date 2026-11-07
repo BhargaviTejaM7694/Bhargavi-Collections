@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/composio-email";
 import { verifySessionToken } from "@/lib/session";
+import { sendOrderProcessing, sendOrderShipped } from "@/lib/whatsapp";
 
 const statusMessages: Record<string, { subject: string; heading: string; message: string; color: string }> = {
   ordered: {
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { customerName, customerEmail, orderId, items, totalAmount, newStatus } = body;
+    const { customerName, customerEmail, customerPhone, orderId, items, totalAmount, newStatus } = body;
 
     if (!statusMessages[newStatus]) {
       return NextResponse.json({ success: true, emailSent: false });
@@ -167,11 +168,23 @@ export async function POST(request: NextRequest) {
       console.error("Owner status notification email failed:", ownerErr);
     }
 
-    return NextResponse.json({ success: true, emailSent: true });
+    // Send WhatsApp status update to customer (only for processing and shipped)
+    let whatsappSent = false;
+    if (customerPhone && (newStatus === "processing" || newStatus === "shipped")) {
+      try {
+        const sendFn = newStatus === "processing" ? sendOrderProcessing : sendOrderShipped;
+        const waResult = await sendFn({ customerPhone, customerName, orderId });
+        whatsappSent = waResult.success;
+      } catch (waErr) {
+        console.error("WhatsApp status update failed:", waErr);
+      }
+    }
+
+    return NextResponse.json({ success: true, emailSent: true, whatsappSent });
   } catch (err) {
-    console.error("Status email error:", err);
+    console.error("Status notification error:", err);
     return NextResponse.json(
-      { success: true, emailSent: false, reason: err instanceof Error ? err.message : "Email failed" },
+      { success: true, emailSent: false, whatsappSent: false, reason: err instanceof Error ? err.message : "Notification failed" },
     );
   }
 }

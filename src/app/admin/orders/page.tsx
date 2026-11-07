@@ -130,6 +130,7 @@ function OrdersManagement() {
         body: JSON.stringify({
           customerName: order.customerName,
           customerEmail: order.customerEmail,
+          customerPhone: order.customerPhone,
           orderId: order.id,
           items: order.items,
           totalAmount: order.totalAmount,
@@ -138,10 +139,13 @@ function OrdersManagement() {
       });
       const result = await res.json();
 
-      if (result.emailSent) {
-        setStatusMessage({ orderId: order.id, message: order.customerEmail ? `Emails sent to customer & owner` : `Email sent to owner`, type: "success" });
+      if (result.emailSent || result.whatsappSent) {
+        const channels: string[] = [];
+        if (result.emailSent) channels.push("email");
+        if (result.whatsappSent) channels.push("WhatsApp");
+        setStatusMessage({ orderId: order.id, message: `Notifications sent via ${channels.join(" & ")}`, type: "success" });
       } else {
-        setStatusMessage({ orderId: order.id, message: "Status updated (email not configured)", type: "success" });
+        setStatusMessage({ orderId: order.id, message: "Status updated (notifications not configured)", type: "success" });
       }
     } catch {
       setStatusMessage({ orderId: order.id, message: "Status updated but email failed", type: "error" });

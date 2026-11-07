@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { sendEmail } from "@/lib/composio-email";
+import { sendOrderConfirmation } from "@/lib/whatsapp";
 
 export async function POST(request: NextRequest) {
   try {
@@ -201,6 +202,19 @@ export async function POST(request: NextRequest) {
       } catch (emailErr) {
         console.error("Customer confirmation email failed:", emailErr);
       }
+    }
+
+    // Send WhatsApp order confirmation to customer
+    try {
+      await sendOrderConfirmation({
+        customerPhone,
+        customerName,
+        orderId: formData.get("orderId") as string || "",
+        totalAmount,
+        itemCount: totalQuantity,
+      });
+    } catch (waErr) {
+      console.error("WhatsApp order confirmation failed:", waErr);
     }
 
     return NextResponse.json({ success: true, screenshotUrl: screenshotUrl || null });

@@ -99,6 +99,8 @@ export default function OrderForm() {
         image: item.product.image,
       }));
 
+      const orderId = generateOrderId();
+
       const formData = new FormData();
       formData.append("customerName", form.name);
       formData.append("customerEmail", form.email);
@@ -112,6 +114,7 @@ export default function OrderForm() {
       formData.append("totalAmount", totalPrice.toString());
       formData.append("siteUrl", window.location.origin);
       formData.append("paymentScreenshot", paymentFile);
+      formData.append("orderId", orderId);
 
       const response = await fetch("/api/orders", { method: "POST", body: formData });
       const result = await response.json();
@@ -121,7 +124,7 @@ export default function OrderForm() {
       }
 
       await saveOrder({
-        id: generateOrderId(),
+        id: orderId,
         customerName: form.name,
         customerEmail: form.email,
         customerPhone: form.phone,
