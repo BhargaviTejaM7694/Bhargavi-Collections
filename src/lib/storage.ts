@@ -45,6 +45,15 @@ export async function updateOrderStatus(orderId: string, status: Order["status"]
   if (error) console.error("Error updating order status:", error);
 }
 
+export async function deleteOrder(orderId: string): Promise<void> {
+  const { error } = await supabase
+    .from("orders")
+    .delete()
+    .eq("id", orderId);
+
+  if (error) console.error("Error deleting order:", error);
+}
+
 export async function getAdminProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
