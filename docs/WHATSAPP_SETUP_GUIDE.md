@@ -122,7 +122,7 @@ After completing all steps, share these values:
 1. **Permanent Access Token**: The token copied in Step 3
 2. **Confirmation** that all 3 templates are approved (Active status)
 
-The Phone Number ID is already configured: `6334053098534`
+The Phone Number ID is already configured: `633405309853490`
 
 ---
 
@@ -134,7 +134,7 @@ The Phone Number ID is already configured: `6334053098534`
 | Business Portfolio | Hanuman Junction Rental Jewellery (ID: 1585816922047090) |
 | Production WABA | Bhargavi Teja Collections (ID: 1009912041100625) |
 | Phone Number | +91 91003 69789 |
-| Phone Number ID | 6334053098534 |
+| Phone Number ID | 633405309853490 |
 | WhatsApp API Version | v21.0 |
 
 ---
