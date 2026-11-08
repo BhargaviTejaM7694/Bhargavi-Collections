@@ -19,32 +19,17 @@ function formatIndianPhone(phone: string): string {
   return digits;
 }
 
-async function sendWhatsAppMessage(
-  to: string,
-  templateName: string,
-  languageCode: string,
-  components: Record<string, unknown>[]
+async function sendWhatsAppRequest(
+  phoneNumberId: string,
+  accessToken: string,
+  body: Record<string, unknown>
 ): Promise<{ success: boolean; messageId?: string; error?: string }> {
-  const config = getConfig();
-  if (!config) return { success: false, error: "WhatsApp not configured" };
-
-  const url = `${WHATSAPP_API_URL}/${config.phoneNumberId}/messages`;
-  const body = {
-    messaging_product: "whatsapp",
-    to: formatIndianPhone(to),
-    type: "template",
-    template: {
-      name: templateName,
-      language: { code: languageCode },
-      components,
-    },
-  };
-
+  const url = `${WHATSAPP_API_URL}/${phoneNumberId}/messages`;
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${config.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
@@ -66,21 +51,63 @@ async function sendWhatsAppMessage(
   }
 }
 
-// Message 1: Order created — order number, item count, total
+async function sendWhatsAppMessage(
+  to: string,
+  templateName: string,
+  languageCode: string,
+  components: Record<string, unknown>[]
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  const config = getConfig();
+  if (!config) return { success: false, error: "WhatsApp not configured" };
+
+  return sendWhatsAppRequest(config.phoneNumberId, config.accessToken, {
+    messaging_product: "whatsapp",
+    to: formatIndianPhone(to),
+    type: "template",
+    template: {
+      name: templateName,
+      language: { code: languageCode },
+      components,
+    },
+  });
+}
+
+async function sendImageMessage(
+  to: string,
+  imageUrl: string,
+  caption: string
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  const config = getConfig();
+  if (!config) return { success: false, error: "WhatsApp not configured" };
+
+  return sendWhatsAppRequest(config.phoneNumberId, config.accessToken, {
+    messaging_product: "whatsapp",
+    to: formatIndianPhone(to),
+    type: "image",
+    image: {
+      link: imageUrl,
+      caption,
+    },
+  });
+}
+
+// Message 1: Order created — order number, item count, total, then product images
 export async function sendOrderConfirmation({
   customerPhone,
   customerName,
   orderId,
   totalAmount,
   itemCount,
+  items,
 }: {
   customerPhone: string;
   customerName: string;
   orderId: string;
   totalAmount: string;
   itemCount: number;
+  items?: { name: string; quantity: number; image?: string }[];
 }) {
-  return sendWhatsAppMessage(customerPhone, "order_confirmation", "en", [
+  const result = await sendWhatsAppMessage(customerPhone, "order_confirmation", "en", [
     {
       type: "body",
       parameters: [
@@ -91,6 +118,21 @@ export async function sendOrderConfirmation({
       ],
     },
   ]);
+
+  if (result.success && items?.length) {
+    const itemsWithImages = items.filter((item) => item.image);
+    for (const item of itemsWithImages) {
+      const qty = item.quantity || 1;
+      const caption = `${item.name}${qty > 1 ? ` (Qty: ${qty})` : ""}`;
+      try {
+        await sendImageMessage(customerPhone, item.image!, caption);
+      } catch (err) {
+        console.error(`Failed to send image for ${item.name}:`, err);
+      }
+    }
+  }
+
+  return result;
 }
 
 // Message 2: Order status changed to Processing

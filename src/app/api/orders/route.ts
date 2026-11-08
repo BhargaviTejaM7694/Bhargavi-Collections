@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send WhatsApp order confirmation to customer
+    // Send WhatsApp order confirmation to customer (with product images)
     try {
       await sendOrderConfirmation({
         customerPhone,
@@ -223,6 +223,11 @@ export async function POST(request: NextRequest) {
         orderId: formData.get("orderId") as string || "",
         totalAmount,
         itemCount: totalQuantity,
+        items: items.map((item) => ({
+          name: item.name,
+          quantity: item.quantity || 1,
+          image: item.image,
+        })),
       });
     } catch (waErr) {
       console.error("WhatsApp order confirmation failed:", waErr);
