@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { sendEmail } from "@/lib/composio-email";
 import { sendOrderConfirmation } from "@/lib/whatsapp";
-import sharp from "sharp";
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,18 +38,11 @@ export async function POST(request: NextRequest) {
     let screenshotUrl = "";
     if (paymentScreenshot) {
       const arrayBuffer = await paymentScreenshot.arrayBuffer();
-      let buffer = Buffer.from(arrayBuffer);
-      let contentType = paymentScreenshot.type;
+      const buffer = Buffer.from(arrayBuffer);
+      const contentType = paymentScreenshot.type || "image/jpeg";
 
-      if (contentType.startsWith("image/") && !contentType.includes("svg")) {
-        buffer = await sharp(buffer)
-          .resize(1080, 1080, { fit: "inside", withoutEnlargement: true })
-          .jpeg({ quality: 80 })
-          .toBuffer();
-        contentType = "image/jpeg";
-      }
-
-      const fileName = `payments/payment-${customerName.replace(/\s+/g, "-")}-${Date.now()}.jpg`;
+      const ext = paymentScreenshot.name?.split(".").pop() || "jpg";
+      const fileName = `payments/payment-${customerName.replace(/\s+/g, "-")}-${Date.now()}.${ext}`;
 
       const { error: uploadError } = await supabase.storage
         .from("products")

@@ -115,7 +115,9 @@ export default function OrderForm() {
       formData.append("items", JSON.stringify(orderItems));
       formData.append("totalAmount", totalPrice.toString());
       formData.append("siteUrl", window.location.origin);
-      formData.append("paymentScreenshot", paymentFile);
+      const { resizeImage } = await import("@/lib/resize-image");
+      const resizedPayment = await resizeImage(paymentFile);
+      formData.append("paymentScreenshot", resizedPayment);
       formData.append("orderId", orderId);
 
       const response = await fetch("/api/orders", { method: "POST", body: formData });

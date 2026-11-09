@@ -120,8 +120,10 @@ function ProductsManagement() {
   };
 
   const uploadImage = async (file: File): Promise<string> => {
+    const { resizeImage } = await import("@/lib/resize-image");
+    const resized = await resizeImage(file);
     const form = new FormData();
-    form.append("file", file);
+    form.append("file", resized);
     const res = await fetch("/api/admin/upload", { method: "POST", body: form });
     if (!res.ok) throw new Error("Upload failed");
     const data = await res.json();
