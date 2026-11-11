@@ -7,7 +7,6 @@ import { useCart } from "@/context/CartContext";
 import { saveOrder, generateOrderId, reduceProductQuantity, getAdminProducts } from "@/lib/storage";
 import type { Product } from "@/types";
 
-const OWNER_PHONE = "919100369789";
 
 const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -145,19 +144,6 @@ export default function OrderForm() {
       });
 
       await reduceProductQuantity(items.map((item) => ({ id: item.product.id, quantity: item.quantity })));
-
-      const screenshotUrl = result.screenshotUrl || "";
-      const itemsList = orderItems.map((i) => `${i.name} x${i.quantity} - ₹${(i.price * i.quantity).toLocaleString("en-IN")}`).join("\n");
-      const totalFormatted = `₹${totalPrice.toLocaleString("en-IN")}`;
-      const screenshotLine = screenshotUrl ? `\nPayment Screenshot: ${screenshotUrl}` : "";
-
-      const ownerMessage = `🛍️ *New Order - ${orderId}*\n\n*Customer:* ${form.name}\n*Phone:* +91 ${form.phone}\n\n*Items:*\n${itemsList}\n\n*Total:* ${totalFormatted}${screenshotLine}\n\nPlease process this order.`;
-      const customerMessage = `Hi *${form.name}*! Your order *${orderId}* at Bhargavi Teja Collections is confirmed.\n\n*Items:*\n${itemsList}\n\n*Total:* ${totalFormatted}\n\nWe'll contact you shortly. Thank you for shopping with us!`;
-
-      window.open(`https://wa.me/${OWNER_PHONE}?text=${encodeURIComponent(ownerMessage)}`, "_blank");
-      setTimeout(() => {
-        window.open(`https://wa.me/91${form.phone}?text=${encodeURIComponent(customerMessage)}`, "_blank");
-      }, 1500);
 
       clearCart();
       router.push("/");
